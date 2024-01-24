@@ -5,12 +5,71 @@ parser::parser()
     
 } // Default Constructor
 
-
-void parser::createTree(const std::string input) const
+parser::~parser()
 {
+    deleteTree(begin);
+} // Default Destructor
+
+void parser::deleteTree(leaf* &walker) const
+{
+    if (walker == nullptr){
+        return;
+    }
+
+    deleteTree(walker->left);
+    deleteTree(walker->right);
+    delete walker;
+} // deleteTree
+
+void parser::createTree(const std::string input)
+{
+    leaf* start = nullptr;
     std::string prefix = infixToPrefix(input);
     std::cout << prefix << std::endl;
+
+    for (auto c : prefix){
+        addBranch(start, c, getLeafID(c));
+    }
+
+
 } // createTree
+
+
+bool parser::addBranch(leaf* &walker, const char c, const leafID id)
+{
+    if (walker == nullptr){
+        return false;
+    }
+    bool done = false;
+
+    if (begin == nullptr){
+        begin = new leaf(nullptr, nullptr, c, id);
+        walker = begin;
+    }else if (isUnary(walker)){
+        done = addBranch(walker->left, c, id);
+        if (walker->left == nullptr){
+            walker->left = new leaf(nullptr, nullptr, c, id);
+            done = true;
+        }
+        if (!done){
+            done = addBranch(walker->right, c, id);
+            if (walker->right == nullptr){
+                walker->right = new leaf(nullptr, nullptr, c, id);
+            }
+        }else {
+            done = true;
+        }
+    }
+    return false;
+} // addBranch
+
+
+/*
+================================================================
+                        INFIX_TO_PREFIX
+================================================================
+*/
+
 
 std::string parser::infixToPostfix(const std::string infix) const
 {
@@ -54,7 +113,7 @@ std::string parser::infixToPrefix(const std::string infix) const
 
     // Infix to Postfix
     prefix = infixToPostfix(prefix);
-    std::cout << prefix << std::endl;
+
     // Reverse Postfix to get Prefix
     prefix = reverseString(prefix);
 

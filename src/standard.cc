@@ -28,3 +28,25 @@ prec precedence(const char c)
         default: return prec::INVALID;
     }
 } // precedence
+
+bool isUnary(const leaf* branch)
+{
+    switch (branch->c)
+    {
+    case '+': case '-': case '*': case '/': case '^': return true;
+    default: return false;
+    }
+} // isUnary
+
+leafID getLeafID(const char c)
+{
+    switch (c)
+    {
+    case '+': return leafID::PLUS;
+    case '-': return leafID::MIN;
+    case '*': return leafID::TIMES;
+    case '/': return leafID::DIVIDE;
+    case '^': return leafID::POWER;
+    default: return leafID::INVALID;
+    }
+} // getLeafID
