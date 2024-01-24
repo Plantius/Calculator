@@ -91,13 +91,9 @@ void parser::recursionPrintTree(leaf* &walker) const
     if (walker == nullptr){
         return;
     }    
-
     recursionPrintTree(walker->left);
-
     std::cout << walker->c;
-
     recursionPrintTree(walker->right);
-
 } // recursionPrintTree
 
 
