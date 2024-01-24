@@ -1,6 +1,7 @@
 #ifndef PARSER_H
 #define PARSER_H
 #include "standard.h"
+#include "calculator.h"
 #include <stack>
 
 class parser
@@ -21,6 +22,8 @@ class parser
 
         void printTree() const;
         void recursionPrintTree(leaf* &walker) const;
+
+        bool calculate();
 };
 
 
