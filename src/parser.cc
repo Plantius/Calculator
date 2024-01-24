@@ -65,10 +65,8 @@ bool parser::addBranch(leaf* &walker, const char c, const leafID id)
                 walker->right = new leaf(nullptr, nullptr, c, id);
                 return true;
             }
-            return done;
-        }else {
-            return true;
         }
+        return done;
     }
     return false;
 } // addBranch
