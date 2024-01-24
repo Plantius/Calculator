@@ -4,7 +4,7 @@ CXX ?= g++
 CXXWIN ?= x86_64-w64-mingw32-g++ 
 CFLAGS := -O3 -Wall -Wextra -Wpedantic -Wconversion \
 		  -Wcast-align -Wunused -Wshadow -Wold-style-cast \
-		  -Wpointer-arith -Wcast-qual -fsanitize=address,undefined
+		  -Wpointer-arith -Wcast-qual 
 CXXFLAGS := -O3 -Wall -Wextra -Wpedantic 
 DBGFLAGS := -g
 COBJFLAGS := $(CFLAGS) -c

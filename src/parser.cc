@@ -2,7 +2,7 @@
 
 parser::parser()
 {
-    
+    begin = nullptr;
 } // Default Constructor
 
 parser::~parser()
@@ -18,8 +18,17 @@ void parser::deleteTree(leaf* &walker) const
 
     deleteTree(walker->left);
     deleteTree(walker->right);
+
     delete walker;
 } // deleteTree
+
+
+/*
+================================================================
+                        CREATE TREE
+================================================================
+*/
+
 
 void parser::createTree(const std::string input)
 {
@@ -30,38 +39,68 @@ void parser::createTree(const std::string input)
     for (auto c : prefix){
         addBranch(start, c, getLeafID(c));
     }
-
+    printTree();
 
 } // createTree
 
 
 bool parser::addBranch(leaf* &walker, const char c, const leafID id)
 {
-    if (walker == nullptr){
-        return false;
-    }
     bool done = false;
 
-    if (begin == nullptr){
+    if (begin == nullptr && walker == nullptr){
         begin = new leaf(nullptr, nullptr, c, id);
         walker = begin;
     }else if (isUnary(walker)){
-        done = addBranch(walker->left, c, id);
-        if (walker->left == nullptr){
+        if (walker->left != nullptr){
+            done = addBranch(walker->left, c, id);
+        }else {
             walker->left = new leaf(nullptr, nullptr, c, id);
-            done = true;
+            return true;
         }
         if (!done){
-            done = addBranch(walker->right, c, id);
-            if (walker->right == nullptr){
+            if (walker->right != nullptr){
+                done = addBranch(walker->right, c, id);
+            }else {
                 walker->right = new leaf(nullptr, nullptr, c, id);
+                return true;
             }
+            return done;
         }else {
-            done = true;
+            return true;
         }
     }
     return false;
 } // addBranch
+
+
+/*
+================================================================
+                        PRINT TREE
+================================================================
+*/
+
+void parser::printTree() const
+{
+    leaf* walker = begin;
+    recursionPrintTree(walker);
+    std::cout << std::endl;
+} // printTree
+
+
+void parser::recursionPrintTree(leaf* &walker) const
+{
+    if (walker == nullptr){
+        return;
+    }    
+
+    recursionPrintTree(walker->left);
+
+    std::cout << walker->c;
+
+    recursionPrintTree(walker->right);
+
+} // recursionPrintTree
 
 
 /*

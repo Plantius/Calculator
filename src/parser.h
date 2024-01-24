@@ -18,6 +18,9 @@ class parser
         
         void createTree(const std::string input);
         bool addBranch(leaf* &walker, const char c, const leafID id);
+
+        void printTree() const;
+        void recursionPrintTree(leaf* &walker) const;
 };
 
 
