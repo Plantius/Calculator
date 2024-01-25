@@ -7,7 +7,7 @@ int main()
     
     try
     {
-        while (std::getline(std::cin >> std::ws, input) && input != "exit" && input != "e"){
+        while (std::getline(std::cin >> std::ws, input) && input != "exit" && input != "e" && input != "end"){
             try
             {
                 if (!legalInput(input)){
