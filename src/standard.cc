@@ -25,6 +25,8 @@ prec precedence(const std::string c)
         return prec::PLUS;
     }else if (c == "-"){
         return prec::MIN;
+    }else if (c == "sin" || c == "cos" || c == "tan"){
+        return prec::TRIG;
     }
     return prec::INVALID;
 } // precedence

@@ -13,10 +13,8 @@ memoryError::memoryError(const std::string error){
     this->type = errorHandler::MEMORY;
 }// default memory error constructor
 
-parseError::parseError(const std::string error, const int row, const int col){
+parseError::parseError(const std::string error){
     this->error = error;
-    this->row = row;
-    this->col = col;
     this->type = errorHandler::PARSE;
 }// default syntax error constructor
 

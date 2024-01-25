@@ -43,11 +43,12 @@ void parser::createTree(const std::string input)
     while(ss >> element){
         tokenizedInput.push_back(element);
     }
-
+    
     infixToPrefix(tokenizedInput, prefix);
     for (auto c : prefix){
+        std::cout << c << " ";
         addBranch(start, c, getLeafID(c));
-    }
+    }std::cout << std::endl;
     printTree();
     calculate();
 } // createTree
@@ -137,11 +138,19 @@ double parser::calculateBranch(leaf* &walker) const
         return walker->left->num / walker->right->num;
     case leafID::POWER:
         return pow(walker->left->num, walker->right->num);
-    
-    default:
+    case leafID::TRIGONOMOTRY:
+        if (walker->c == "sin"){
+            return sin(walker->right->num);
+        }else if (walker->c == "cos"){
+            return cos(walker->right->num);
+        }else if (walker->c == "tan"){
+            return tan(walker->right->num);
+        }
         break;
+    default: 
+        throw parseError("Invalid unary operator.");
     }
-    return -1;
+    return 0;
 } // calculateBranch
 
 
@@ -200,7 +209,7 @@ void parser::infixToPostfix(const std::vector<std::string> infix, std::vector<st
                 st.pop();
             }
             st.pop();
-        }else if (c == "-" || c == "+" || c == "*" || c == "/" || c == "^"){
+        }else{
             while (!st.empty() && (precedence(c) < precedence(st.top()) || 
                    (precedence(c) == precedence(st.top()) && c != "^"))){
                 postfix.push_back(st.top());

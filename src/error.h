@@ -77,8 +77,7 @@ class parseError : public errorHandler{
         * @abstract: Constructor
         * @param err: set error to err 
         **/
-        parseError(const std::string err, 
-                   const int row, const int col);
+        parseError(const std::string err);
 }; // inputError
 
 // Handles input errors
