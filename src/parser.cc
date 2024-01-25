@@ -26,13 +26,6 @@ void parser::deleteTree(leaf* &walker) const
 } // deleteTree
 
 
-void parser::clear() 
-{
-    deleteTree(begin);
-    begin = nullptr;
-} // clear
-
-
 /*
 ================================================================
                         CREATE TREE
@@ -43,7 +36,7 @@ void parser::clear()
 void parser::createTree(const std::string input)
 {
     leaf* start = nullptr;
-    std::vector<std::string> tokenizedInput, prefix;
+    std::vector<std::string> tokenizedInput = {}, prefix = {};
     std::stringstream ss(input);
     std::string element = {};
         

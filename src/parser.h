@@ -13,9 +13,7 @@ class parser
         parser();
         ~parser();
 
-        void clear();
         void deleteTree(leaf* &walker) const;
-
 
         void infixToPostfix(const std::vector<std::string> infix, std::vector<std::string> &postfix) const;
         void infixToPrefix(const std::vector<std::string> infix, std::vector<std::string> &prefix) const;

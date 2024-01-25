@@ -1,7 +1,7 @@
 #ifndef LEAF_H
 #define LEAF_H
 
-enum class leafID {PLUS, MIN, MULTIPLICATION, DIVIDE, POWER, NUMBER, INVALID=-1};
+enum class leafID {PLUS, MIN, MULTIPLICATION, DIVIDE, POWER, TRIGONOMOTRY, NUMBER, INVALID=-1};
 
 struct leaf
 {   
@@ -11,7 +11,7 @@ struct leaf
     
     leaf* left;
     leaf* right;
-    
+
     std::string c;
     leafID id;
     double num;
