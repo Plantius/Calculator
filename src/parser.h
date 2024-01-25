@@ -2,8 +2,6 @@
 #define PARSER_H
 #include "standard.h"
 #include <stack>
-#include <vector>
-#include <sstream>
 
 class parser
 {

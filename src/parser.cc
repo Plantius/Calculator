@@ -1,4 +1,5 @@
 #include "parser.h"
+using std::cout, std::endl;
 
 parser::parser()
 {
@@ -43,12 +44,11 @@ void parser::createTree(const std::string input)
     while(ss >> element){
         tokenizedInput.push_back(element);
     }
-    
+
     infixToPrefix(tokenizedInput, prefix);
     for (auto c : prefix){
-        std::cout << c << " ";
         addBranch(start, c, getLeafID(c));
-    }std::cout << std::endl;
+    }
     printTree();
     calculate();
 } // createTree
@@ -140,11 +140,11 @@ double parser::calculateBranch(leaf* &walker) const
         return pow(walker->left->num, walker->right->num);
     case leafID::TRIGONOMOTRY:
         if (walker->c == "sin"){
-            return sin(walker->right->num);
+            return sin(walker->left->num);
         }else if (walker->c == "cos"){
-            return cos(walker->right->num);
+            return cos(walker->left->num);
         }else if (walker->c == "tan"){
-            return tan(walker->right->num);
+            return tan(walker->left->num);
         }
         break;
     default: 
@@ -197,9 +197,11 @@ void parser::recursionPrintTree(leaf* &walker) const
 void parser::infixToPostfix(const std::vector<std::string> infix, std::vector<std::string> &postfix) const
 {
     std::stack<std::string> st;
+    double temp = {};
 
     for (auto c : infix){
-        if (atof(c.c_str())){
+        std::stringstream ss(c);
+        if (ss >> temp){
             postfix.push_back(c);
         }else if (c == "("){
             st.push(c);
@@ -230,8 +232,10 @@ void parser::infixToPrefix(const std::vector<std::string> infix, std::vector<std
 
     // Reverse the expression
     reverseString(infix, reverse);
+    
     // Infix to Postfix
     infixToPostfix(reverse, postfix);
+   
     // Reverse Postfix to get Prefix
     reverseString(postfix, prefix);
 } // infixToPrefix

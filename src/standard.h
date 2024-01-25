@@ -3,7 +3,9 @@
 #include <iostream>
 #include <math.h>
 #include <vector>
+#include <sstream>
 #include <string>
+
 #include "leaf.h"
 #include "error.h"
 

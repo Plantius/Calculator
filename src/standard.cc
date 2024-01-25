@@ -41,7 +41,9 @@ bool isUnary(const leaf* branch)
 
 leafID getLeafID(const std::string c)
 {
-    if (isalnum(c[0])){
+    std::stringstream ss(c);
+    double temp = {};
+    if (ss >> temp){
         return leafID::NUMBER;
     }
     if (c == "^"){
@@ -54,6 +56,8 @@ leafID getLeafID(const std::string c)
         return leafID::PLUS;
     }else if (c == "-"){
         return leafID::MIN;
+    }else if (c == "sin" || c == "cos" || c == "tan"){
+        return leafID::TRIGONOMOTRY;
     }
     return leafID::INVALID;
 } // getLeafID
