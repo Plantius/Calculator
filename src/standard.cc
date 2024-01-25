@@ -57,19 +57,6 @@ leafID getLeafID(const std::string c)
 } // getLeafID
 
 
-void deleteTree(leaf* &walker)
-{
-    if (walker == nullptr){
-        return;
-    }
-
-    deleteTree(walker->left);
-    deleteTree(walker->right);
-
-    delete walker;
-} // deleteTree
-
-
 bool legalInput (const std::string input)
 {
     for (auto c : input){

@@ -18,7 +18,5 @@ prec precedence(const std::string c);
 bool isUnary(const leaf* branch);
 leafID getLeafID(const std::string c);
 
-void deleteTree(leaf* &walker);
-
 bool legalInput(const std::string input);
 #endif

@@ -14,6 +14,8 @@ int main()
                     throw inputError("Invalid input.");
                 }
                 parseTree.createTree(input);
+                parseTree.clear();
+                input.clear();
             }
             catch(const parseError error){
                 error.printError();

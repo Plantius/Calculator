@@ -12,6 +12,27 @@ parser::~parser()
 } // Default Destructor
 
 
+void parser::deleteTree(leaf* &walker) const
+{
+    if (walker == nullptr){
+        return;
+    }
+
+    deleteTree(walker->left);
+    deleteTree(walker->right);
+
+    delete walker;
+    walker = nullptr;
+} // deleteTree
+
+
+void parser::clear() 
+{
+    deleteTree(begin);
+    begin = nullptr;
+} // clear
+
+
 /*
 ================================================================
                         CREATE TREE
@@ -22,7 +43,7 @@ parser::~parser()
 void parser::createTree(const std::string input)
 {
     leaf* start = nullptr;
-    std::vector<std::string> tokenizedInput = {}, prefix = {};
+    std::vector<std::string> tokenizedInput, prefix;
     std::stringstream ss(input);
     std::string element = {};
         
@@ -72,6 +93,7 @@ bool parser::addBranch(leaf* &walker, const std::string c, const leafID id)
                         CALCULATE EXPRESSION
 ================================================================
 */
+
 
 void parser::calculate() const
 {
