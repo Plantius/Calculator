@@ -31,15 +31,17 @@ prec precedence(const char c)
 
 bool isUnary(const leaf* branch)
 {
-    switch (branch->c)
-    {
-    case '+': case '-': case '*': case '/': case '^': return true;
-    default: return false;
+    if (branch->c == "-" || branch->c == "+" || branch->c == "*" || branch->c == "/" || branch->c == "^"){
+        return true;
     }
+    return false;
 } // isUnary
 
 leafID getLeafID(const char c)
 {
+    if (isdigit(c)){
+        return leafID::NUMBER;
+    }
     switch (c)
     {
     case '+': return leafID::PLUS;
@@ -50,3 +52,16 @@ leafID getLeafID(const char c)
     default: return leafID::INVALID;
     }
 } // getLeafID
+
+
+void deleteTree(leaf* &walker)
+{
+    if (walker == nullptr){
+        return;
+    }
+
+    deleteTree(walker->left);
+    deleteTree(walker->right);
+
+    delete walker;
+} // deleteTree

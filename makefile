@@ -2,10 +2,10 @@
 CC ?= gcc
 CXX ?= g++
 CXXWIN ?= x86_64-w64-mingw32-g++ 
-CFLAGS := -O3 -Wall -Wextra -Wpedantic -Wconversion \
+CFLAGS := -O1 -Wall -Wextra -Wpedantic -Wconversion \
 		  -Wcast-align -Wunused -Wshadow -Wold-style-cast \
 		  -Wpointer-arith -Wcast-qual 
-CXXFLAGS := -O3 -Wall -Wextra -Wpedantic 
+CXXFLAGS := -O1 -Wall -Wextra -Wpedantic 
 DBGFLAGS := -g
 COBJFLAGS := $(CFLAGS) -c
 

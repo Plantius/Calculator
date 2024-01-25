@@ -14,4 +14,7 @@ prec precedence(const char c);
 
 bool isUnary(const leaf* branch);
 leafID getLeafID(const char c);
+
+void deleteTree(leaf* &walker);
+
 #endif

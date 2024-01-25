@@ -1,7 +1,6 @@
 #ifndef PARSER_H
 #define PARSER_H
 #include "standard.h"
-#include "calculator.h"
 #include <stack>
 
 class parser
@@ -12,18 +11,19 @@ class parser
         parser();
         ~parser();
 
-        void deleteTree(leaf* &walker) const;
-
         std::string infixToPostfix(const std::string infix) const;
         std::string infixToPrefix(const std::string infix) const;
         
         void createTree(const std::string input);
-        bool addBranch(leaf* &walker, const char c, const leafID id);
+        bool addBranch(leaf* &walker, const std::string c, const leafID id);
 
         void printTree() const;
         void recursionPrintTree(leaf* &walker) const;
 
         bool calculate();
+        void recursionSimplify(leaf* &walker) const;
+
+        int calculateBranch(leaf* &walker) const;
 };
 
 

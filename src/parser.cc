@@ -8,19 +8,8 @@ parser::parser()
 parser::~parser()
 {
     deleteTree(begin);
+    begin = nullptr;
 } // Default Destructor
-
-void parser::deleteTree(leaf* &walker) const
-{
-    if (walker == nullptr){
-        return;
-    }
-
-    deleteTree(walker->left);
-    deleteTree(walker->right);
-
-    delete walker;
-} // deleteTree
 
 
 /*
@@ -37,14 +26,14 @@ void parser::createTree(const std::string input)
     std::cout << prefix << std::endl;
 
     for (auto c : prefix){
-        addBranch(start, c, getLeafID(c));
+        addBranch(start, std::string(1, c), getLeafID(c));
     }
     printTree();
-
+    calculate();
 } // createTree
 
 
-bool parser::addBranch(leaf* &walker, const char c, const leafID id)
+bool parser::addBranch(leaf* &walker, const std::string c, const leafID id)
 {
     bool done = false;
 
@@ -80,9 +69,52 @@ bool parser::addBranch(leaf* &walker, const char c, const leafID id)
 
 bool parser::calculate()
 {
-    calculator calc(begin);
-    
-}
+    // leaf* walker = begin;
+
+    // recursionSimplify(walker);
+} // calculate
+
+void parser::recursionSimplify(leaf* &walker) const
+{
+    // if (walker == nullptr){
+    //     return;
+    // }
+    // int result = 0;
+
+    // recursionSimplify(walker->left);
+    // recursionSimplify(walker->right);
+
+    // result = calculateBranch(walker);
+    // walker->id = leafID::NUMBER;
+    // walker->c = char(result);
+    // delete walker->left;
+    // delete walker->right;
+    // walker->left = nullptr, walker->right = nullptr;
+} // recursionSimplify
+
+
+int parser::calculateBranch(leaf* &walker) const
+{
+    // if (isUnary(walker)){
+    //     switch (walker->id)
+    //     {
+    //     case leafID::PLUS:
+    //         return atoi(walker->left->c.c_str()) + atoi(walker->right->c.c_str());
+    //     case leafID::MIN:
+    //         return atoi(walker->left->c.c_str()) - atoi(walker->right->c.c_str());
+    //     case leafID::TIMES:
+    //         return atoi(walker->left->c.c_str()) * atoi(walker->right->c.c_str());
+    //     case leafID::DIVIDE:
+    //         return atoi(walker->left->c.c_str()) / atoi(walker->right->c.c_str());
+    //     case leafID::POWER:
+    //         return pow(atoi(walker->left->c.c_str()), atoi(walker->right->c.c_str()));
+        
+    //     default:
+    //         break;
+    //     }
+    // }
+    // return -1;
+} // calculateBranch
 
 
 /*
