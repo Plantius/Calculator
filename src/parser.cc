@@ -90,7 +90,7 @@ void parser::recursionSimplify(leaf* &walker) const
 
     recursionSimplify(walker->left);
     recursionSimplify(walker->right);
-    // std::cout << walker->c << std::endl;
+
     if (isUnary(walker)){
         result = calculateBranch(walker);
 
@@ -150,7 +150,15 @@ void parser::recursionPrintTree(leaf* &walker) const
         return;
     }    
     recursionPrintTree(walker->left);
-    std::cout << walker->c;
+    if (walker->id == leafID::NUMBER){
+        if (floor(walker->num) == walker->num){
+            std::cout << int(walker->num);
+        }else {
+            std::cout << walker->num;
+        }
+    }else {
+        std::cout << walker->c;
+    }
     recursionPrintTree(walker->right);
 } // recursionPrintTree
 
