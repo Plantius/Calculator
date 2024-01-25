@@ -22,7 +22,7 @@ class parser
         void printTree() const;
         void recursionPrintTree(leaf* &walker) const;
 
-        bool calculate() const;
+        void calculate() const;
         void recursionSimplify(leaf* &walker) const;
 
         double calculateBranch(leaf* &walker) const;

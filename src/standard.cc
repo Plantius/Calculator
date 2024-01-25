@@ -31,7 +31,7 @@ prec precedence(const std::string c)
 
 bool isUnary(const leaf* branch)
 {
-    if (branch->c == "-" || branch->c == "+" || branch->c == "*" || branch->c == "/" || branch->c == "^"){
+    if (branch->id != leafID::INVALID && branch->id != leafID::NUMBER){
         return true;
     }
     return false;
@@ -73,7 +73,7 @@ void deleteTree(leaf* &walker)
 bool legalInput (const std::string input)
 {
     for (auto c : input){
-        if (!isalnum(c)){
+        if (!isascii(c)){
             return false;
         }
     }

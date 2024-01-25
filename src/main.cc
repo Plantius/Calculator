@@ -10,6 +10,9 @@ int main()
         while (std::getline(std::cin >> std::ws, input) && input != "exit" && input != "e"){
             try
             {
+                if (!legalInput(input)){
+                    throw inputError("Invalid input.");
+                }
                 parseTree.createTree(input);
             }
             catch(const parseError error){

@@ -25,17 +25,14 @@ void parser::createTree(const std::string input)
     std::vector<std::string> tokenizedInput = {}, prefix = {};
     std::stringstream ss(input);
     std::string element = {};
-    
+        
     while(ss >> element){
-        if (!legalInput(element)){
-            throw inputError("Invalid input.");
-        }    
+        tokenizedInput.push_back(element);
     }
 
     infixToPrefix(tokenizedInput, prefix);
     for (auto c : prefix){
-        std::cout << c << std::endl;
-        // addBranch(start, c, getLeafID(c));
+        addBranch(start, c, getLeafID(c));
     }
     printTree();
     calculate();
@@ -76,12 +73,12 @@ bool parser::addBranch(leaf* &walker, const std::string c, const leafID id)
 ================================================================
 */
 
-bool parser::calculate() const
+void parser::calculate() const
 {
-    // leaf* walker = begin;
+    leaf* walker = begin;
 
-    // recursionSimplify(walker);
-    return false;
+    recursionSimplify(walker);
+    printTree();
 } // calculate
 
 void parser::recursionSimplify(leaf* &walker) const
@@ -93,40 +90,41 @@ void parser::recursionSimplify(leaf* &walker) const
 
     recursionSimplify(walker->left);
     recursionSimplify(walker->right);
+    // std::cout << walker->c << std::endl;
+    if (isUnary(walker)){
+        result = calculateBranch(walker);
 
-    result = calculateBranch(walker);
-    if (floor(result) == result){
-        result = static_cast<int>(result);
+        if (floor(result) == result){
+            result = static_cast<int>(result);
+        }
+        walker->id = leafID::NUMBER;
+        walker->c = std::to_string(result);
+        walker->num = result;
+
+        delete walker->left;
+        delete walker->right;
+        walker->left = nullptr, walker->right = nullptr;
     }
-    walker->id = leafID::NUMBER;
-    walker->c = char(result);
-    walker->num = atof(walker->c.c_str());
-
-    delete walker->left;
-    delete walker->right;
-    walker->left = nullptr, walker->right = nullptr;
 } // recursionSimplify
 
 
 double parser::calculateBranch(leaf* &walker) const
 {
-    if (isUnary(walker)){
-        switch (walker->id)
-        {
-        case leafID::PLUS:
-            return walker->left->num + walker->right->num;
-        case leafID::MIN:
-            return walker->left->num - walker->right->num;
-        case leafID::MULTIPLICATION:
-            return walker->left->num * walker->right->num;
-        case leafID::DIVIDE:
-            return walker->left->num / walker->right->num;
-        case leafID::POWER:
-            return pow(walker->left->num, walker->right->num);
-        
-        default:
-            break;
-        }
+    switch (walker->id)
+    {
+    case leafID::PLUS:
+        return walker->left->num + walker->right->num;
+    case leafID::MIN:
+        return walker->left->num - walker->right->num;
+    case leafID::MULTIPLICATION:
+        return walker->left->num * walker->right->num;
+    case leafID::DIVIDE:
+        return walker->left->num / walker->right->num;
+    case leafID::POWER:
+        return pow(walker->left->num, walker->right->num);
+    
+    default:
+        break;
     }
     return -1;
 } // calculateBranch

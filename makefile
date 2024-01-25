@@ -3,7 +3,7 @@ CC ?= gcc
 CXX ?= g++
 CXXWIN ?= x86_64-w64-mingw32-g++ 
 CFLAGS := -O1 -Wall -Wextra -Wpedantic -Wconversion \
-		  -Wcast-align -Wunused -Wshadow -Wold-style-cast \
+		  -Wcast-align -Wunused -Wold-style-cast \
 		  -Wpointer-arith -Wcast-qual 
 CXXFLAGS := -O1	 -Wall -Wextra -Wpedantic 
 DBGFLAGS := -g
