@@ -22,11 +22,20 @@ parser::~parser()
 void parser::createTree(const std::string input)
 {
     leaf* start = nullptr;
-    std::string prefix = infixToPrefix(input);
-    std::cout << prefix << std::endl;
+    std::vector<std::string> tokenizedInput = {}, prefix = {};
+    std::stringstream ss(input);
+    std::string element = {};
+    
+    while(ss >> element){
+        if (!legalInput(element)){
+            throw inputError("Invalid input.");
+        }    
+    }
 
+    infixToPrefix(tokenizedInput, prefix);
     for (auto c : prefix){
-        addBranch(start, std::string(1, c), getLeafID(c));
+        std::cout << c << std::endl;
+        // addBranch(start, c, getLeafID(c));
     }
     printTree();
     calculate();
@@ -38,20 +47,20 @@ bool parser::addBranch(leaf* &walker, const std::string c, const leafID id)
     bool done = false;
 
     if (begin == nullptr && walker == nullptr){
-        begin = new leaf(nullptr, nullptr, c, id);
+        begin = new leaf(nullptr, nullptr, c, id, atof(c.c_str()));
         walker = begin;
     }else if (isUnary(walker)){
         if (walker->left != nullptr){
             done = addBranch(walker->left, c, id);
         }else {
-            walker->left = new leaf(nullptr, nullptr, c, id);
+            walker->left = new leaf(nullptr, nullptr, c, id, atof(c.c_str()));
             return true;
         }
         if (!done){
             if (walker->right != nullptr){
                 done = addBranch(walker->right, c, id);
             }else {
-                walker->right = new leaf(nullptr, nullptr, c, id);
+                walker->right = new leaf(nullptr, nullptr, c, id, atof(c.c_str()));
                 return true;
             }
         }
@@ -67,53 +76,59 @@ bool parser::addBranch(leaf* &walker, const std::string c, const leafID id)
 ================================================================
 */
 
-bool parser::calculate()
+bool parser::calculate() const
 {
     // leaf* walker = begin;
 
     // recursionSimplify(walker);
+    return false;
 } // calculate
 
 void parser::recursionSimplify(leaf* &walker) const
 {
-    // if (walker == nullptr){
-    //     return;
-    // }
-    // int result = 0;
+    if (walker == nullptr){
+        return;
+    }
+    double result = 0;
 
-    // recursionSimplify(walker->left);
-    // recursionSimplify(walker->right);
+    recursionSimplify(walker->left);
+    recursionSimplify(walker->right);
 
-    // result = calculateBranch(walker);
-    // walker->id = leafID::NUMBER;
-    // walker->c = char(result);
-    // delete walker->left;
-    // delete walker->right;
-    // walker->left = nullptr, walker->right = nullptr;
+    result = calculateBranch(walker);
+    if (floor(result) == result){
+        result = static_cast<int>(result);
+    }
+    walker->id = leafID::NUMBER;
+    walker->c = char(result);
+    walker->num = atof(walker->c.c_str());
+
+    delete walker->left;
+    delete walker->right;
+    walker->left = nullptr, walker->right = nullptr;
 } // recursionSimplify
 
 
-int parser::calculateBranch(leaf* &walker) const
+double parser::calculateBranch(leaf* &walker) const
 {
-    // if (isUnary(walker)){
-    //     switch (walker->id)
-    //     {
-    //     case leafID::PLUS:
-    //         return atoi(walker->left->c.c_str()) + atoi(walker->right->c.c_str());
-    //     case leafID::MIN:
-    //         return atoi(walker->left->c.c_str()) - atoi(walker->right->c.c_str());
-    //     case leafID::TIMES:
-    //         return atoi(walker->left->c.c_str()) * atoi(walker->right->c.c_str());
-    //     case leafID::DIVIDE:
-    //         return atoi(walker->left->c.c_str()) / atoi(walker->right->c.c_str());
-    //     case leafID::POWER:
-    //         return pow(atoi(walker->left->c.c_str()), atoi(walker->right->c.c_str()));
+    if (isUnary(walker)){
+        switch (walker->id)
+        {
+        case leafID::PLUS:
+            return walker->left->num + walker->right->num;
+        case leafID::MIN:
+            return walker->left->num - walker->right->num;
+        case leafID::MULTIPLICATION:
+            return walker->left->num * walker->right->num;
+        case leafID::DIVIDE:
+            return walker->left->num / walker->right->num;
+        case leafID::POWER:
+            return pow(walker->left->num, walker->right->num);
         
-    //     default:
-    //         break;
-    //     }
-    // }
-    // return -1;
+        default:
+            break;
+        }
+    }
+    return -1;
 } // calculateBranch
 
 
@@ -149,51 +164,44 @@ void parser::recursionPrintTree(leaf* &walker) const
 */
 
 
-std::string parser::infixToPostfix(const std::string infix) const
+void parser::infixToPostfix(const std::vector<std::string> infix, std::vector<std::string> &postfix) const
 {
-    std::stack<char> st;
-    std::string postfix = {};
+    std::stack<std::string> st;
 
     for (auto c : infix){
-        if (isalnum(c)){
-            postfix += c;
-        }else if (c == '('){
+        if (atof(c.c_str())){
+            postfix.push_back(c);
+        }else if (c == "("){
             st.push(c);
-        }else if (c == ')'){
-            while (st.top() != '('){
-                postfix += st.top();
+        }else if (c == ")"){
+            while (st.top() != "("){
+                postfix.push_back(st.top());
                 st.pop();
             }
             st.pop();
-        }else if (c == '-' || c == '+' || c == '*' || c == '/' || c == '^'){
+        }else if (c == "-" || c == "+" || c == "*" || c == "/" || c == "^"){
             while (!st.empty() && (precedence(c) < precedence(st.top()) || 
-                   (precedence(c) == precedence(st.top()) && c != '^'))){
-                postfix += st.top();
+                   (precedence(c) == precedence(st.top()) && c != "^"))){
+                postfix.push_back(st.top());
                 st.pop();
             }
             st.push(c);
         }
     }
     while (!st.empty()){
-        postfix += st.top();
+        postfix.push_back(st.top());
         st.pop();
     }
-
-    return postfix;
 } // infixToPostfix
 
-std::string parser::infixToPrefix(const std::string infix) const
+void parser::infixToPrefix(const std::vector<std::string> infix, std::vector<std::string> &prefix) const
 {
-    std::string prefix = {};
+    std::vector<std::string> reverse = {}, postfix = {};
 
     // Reverse the expression
-    prefix = reverseString(infix);
-
+    reverseString(infix, reverse);
     // Infix to Postfix
-    prefix = infixToPostfix(prefix);
-
+    infixToPostfix(reverse, postfix);
     // Reverse Postfix to get Prefix
-    prefix = reverseString(prefix);
-
-    return prefix;
+    reverseString(postfix, prefix);
 } // infixToPrefix

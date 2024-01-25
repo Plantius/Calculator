@@ -2,6 +2,8 @@
 #define PARSER_H
 #include "standard.h"
 #include <stack>
+#include <vector>
+#include <sstream>
 
 class parser
 {
@@ -11,8 +13,8 @@ class parser
         parser();
         ~parser();
 
-        std::string infixToPostfix(const std::string infix) const;
-        std::string infixToPrefix(const std::string infix) const;
+        void infixToPostfix(const std::vector<std::string> infix, std::vector<std::string> &postfix) const;
+        void infixToPrefix(const std::vector<std::string> infix, std::vector<std::string> &prefix) const;
         
         void createTree(const std::string input);
         bool addBranch(leaf* &walker, const std::string c, const leafID id);
@@ -20,10 +22,10 @@ class parser
         void printTree() const;
         void recursionPrintTree(leaf* &walker) const;
 
-        bool calculate();
+        bool calculate() const;
         void recursionSimplify(leaf* &walker) const;
 
-        int calculateBranch(leaf* &walker) const;
+        double calculateBranch(leaf* &walker) const;
 };
 
 

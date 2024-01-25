@@ -1,32 +1,32 @@
 #include "standard.h"
 
-std::string reverseString(const std::string input)
+void reverseString(const std::vector<std::string> input, std::vector<std::string> &output)
 {   
-    std::string reverse = {};
     for (size_t i = input.size(); i > 0; i--){
-        if (input[i-1] == '('){
-            reverse += ')';
-        }else if (input[i-1] == ')'){
-            reverse += '(';
+        if (input[i-1] == "("){
+            output.push_back(")");
+        }else if (input[i-1] == ")"){
+            output.push_back("(");
         }else {
-            reverse += input[i-1];
+            output.push_back(input[i-1]);
         }
     }
-    return reverse;
 } // reverseString
 
-prec precedence(const char c)
+prec precedence(const std::string c)
 {
-    switch (c)
-    {
-        case '^': return prec::POW;
-        case '*': return prec::MUL;
-        case '/': return prec::DIV;
-        case '+': return prec::PLUS;
-        case '-': return prec::MIN;
-
-        default: return prec::INVALID;
+    if (c == "^"){
+        return prec::POW;
+    }else if (c == "*"){
+        return prec::MUL;
+    }else if (c == "/"){
+        return prec::DIV;
+    }else if (c == "+"){
+        return prec::PLUS;
+    }else if (c == "-"){
+        return prec::MIN;
     }
+    return prec::INVALID;
 } // precedence
 
 bool isUnary(const leaf* branch)
@@ -37,20 +37,23 @@ bool isUnary(const leaf* branch)
     return false;
 } // isUnary
 
-leafID getLeafID(const char c)
+leafID getLeafID(const std::string c)
 {
-    if (isdigit(c)){
+    if (isalnum(c[0])){
         return leafID::NUMBER;
     }
-    switch (c)
-    {
-    case '+': return leafID::PLUS;
-    case '-': return leafID::MIN;
-    case '*': return leafID::TIMES;
-    case '/': return leafID::DIVIDE;
-    case '^': return leafID::POWER;
-    default: return leafID::INVALID;
+    if (c == "^"){
+        return leafID::POWER;
+    }else if (c == "*"){
+        return leafID::MULTIPLICATION;
+    }else if (c == "/"){
+        return leafID::DIVIDE;
+    }else if (c == "+"){
+        return leafID::PLUS;
+    }else if (c == "-"){
+        return leafID::MIN;
     }
+    return leafID::INVALID;
 } // getLeafID
 
 
@@ -65,3 +68,14 @@ void deleteTree(leaf* &walker)
 
     delete walker;
 } // deleteTree
+
+
+bool legalInput (const std::string input)
+{
+    for (auto c : input){
+        if (!isalnum(c)){
+            return false;
+        }
+    }
+    return true;
+} // legalInput
