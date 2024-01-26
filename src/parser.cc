@@ -42,14 +42,6 @@ void parser::createTree(const std::string input)
     std::string element = {};
     
     splitString(input, tokenizedInput);
-    for (auto c : tokenizedInput){
-        cout << c << endl;
-    }
-
-    // while(ss >> element){
-    //     tokenizedInput.push_back(element);
-    // }
-
     infixToPrefix(tokenizedInput, prefix);
     for (auto c : prefix){
         addBranch(start, c, getLeafID(c));
@@ -199,8 +191,14 @@ void parser::recursionPrintTree(leaf* &walker) const
         }
     }else {
         std::cout << walker->c;
+        if (walker->id == leafID::TRIGONOMOTRY){
+            std::cout << "(";
+        }
     }
     recursionPrintTree(walker->right);
+    if (walker->id == leafID::TRIGONOMOTRY){
+        std::cout << ")";
+    }
 } // recursionPrintTree
 
 
