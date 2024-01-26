@@ -47,8 +47,9 @@ void parser::createTree(const std::string input)
 
     infixToPrefix(tokenizedInput, prefix);
     for (auto c : prefix){
+        cout << c;
         addBranch(start, c, getLeafID(c));
-    }
+    }cout << endl;
     printTree();
     calculate();
 } // createTree
@@ -62,21 +63,31 @@ bool parser::addBranch(leaf* &walker, const std::string c, const leafID id)
         begin = new leaf(nullptr, nullptr, c, id, atof(c.c_str()));
         walker = begin;
     }else if (isUnary(walker)){
-        if (walker->left != nullptr){
-            done = addBranch(walker->left, c, id);
-        }else {
-            walker->left = new leaf(nullptr, nullptr, c, id, atof(c.c_str()));
-            return true;
-        }
-        if (!done){
+        if (walker->id == leafID::TRIGONOMOTRY){
             if (walker->right != nullptr){
                 done = addBranch(walker->right, c, id);
             }else {
                 walker->right = new leaf(nullptr, nullptr, c, id, atof(c.c_str()));
                 return true;
             }
+            return done;
+        }else {
+            if (walker->left != nullptr){
+                done = addBranch(walker->left, c, id);
+            }else {
+                walker->left = new leaf(nullptr, nullptr, c, id, atof(c.c_str()));
+                return true;
+            }
+            if (!done){
+                if (walker->right != nullptr){
+                    done = addBranch(walker->right, c, id);
+                }else {
+                    walker->right = new leaf(nullptr, nullptr, c, id, atof(c.c_str()));
+                    return true;
+                }
+            }
+            return done;
         }
-        return done;
     }
     return false;
 } // addBranch
@@ -140,11 +151,11 @@ double parser::calculateBranch(leaf* &walker) const
         return pow(walker->left->num, walker->right->num);
     case leafID::TRIGONOMOTRY:
         if (walker->c == "sin"){
-            return sin(walker->left->num);
+            return sin(walker->right->num);
         }else if (walker->c == "cos"){
-            return cos(walker->left->num);
+            return cos(walker->right->num);
         }else if (walker->c == "tan"){
-            return tan(walker->left->num);
+            return tan(walker->right->num);
         }
         break;
     default: 

@@ -9,7 +9,7 @@
 #include "leaf.h"
 #include "error.h"
 
-enum class prec {PLUS = 1, MIN = 1, TRIG = 1, MUL = 2, DIV = 2, POW = 3, INVALID = -1};
+enum class prec {PLUS = 1, MIN = 1, TRIG = 3, MUL = 2, DIV = 2, POW = 3, INVALID = -1};
 
 // Reverses the std::string input, and writes the reversed
 // string to std::string reverse
