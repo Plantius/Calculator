@@ -25,7 +25,7 @@ The binary file is located in the */bin* folder, and can be executed with the fo
 Niels Versteeg (s3322637)
 
 ## TODO
-* Add sin, cos and tan
+* <del> Add sin, cos and tan
 * Stress test
 * Auto separate input
 * Add other calculator functions
