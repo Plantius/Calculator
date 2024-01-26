@@ -1,5 +1,11 @@
 #include "parser.h"
 
+void startMenu()
+{
+    std::cout << "Calculator" << std::endl;
+    std::cout << "Enter a mathematical expression: ";
+} // startMenu
+
 int main()
 {
     parser parseTree;
@@ -7,14 +13,16 @@ int main()
     
     try
     {
+        startMenu();
         while (std::getline(std::cin >> std::ws, input) && input != "exit" && input != "e" && input != "end"){
             try
             {
+                parseTree.~parser();
                 if (!legalInput(input)){
                     throw inputError("Invalid input.");
                 }
                 parseTree.createTree(input);
-                parseTree.~parser();
+                
             }
             catch(const parseError error){
                 error.printError();

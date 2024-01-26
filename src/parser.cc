@@ -46,7 +46,6 @@ void parser::createTree(const std::string input)
     for (auto c : prefix){
         addBranch(start, c, getLeafID(c));
     }
-    printTree();
     calculate();
 } // createTree
 
@@ -101,7 +100,7 @@ void parser::calculate() const
     leaf* walker = begin;
 
     recursionSimplify(walker);
-    cout << ": ";
+    cout << "> ";
     printTree();
     cout << endl;
 } // calculate
@@ -137,16 +136,15 @@ double parser::calculateBranch(leaf* &walker) const
 {
     switch (walker->id)
     {
-    case leafID::PLUS:
-        return walker->left->num + walker->right->num;
-    case leafID::MIN:
-        return walker->left->num - walker->right->num;
-    case leafID::MULTIPLICATION:
-        return walker->left->num * walker->right->num;
-    case leafID::DIVIDE:
+    case leafID::PLUS: return walker->left->num + walker->right->num;
+    case leafID::MIN: return walker->left->num - walker->right->num;
+    case leafID::MULTIPLICATION: return walker->left->num * walker->right->num;
+    case leafID::DIVIDE: 
+        if (walker->right->num == 0){
+            throw parseError("Division by zero.");
+        }
         return walker->left->num / walker->right->num;
-    case leafID::POWER:
-        return pow(walker->left->num, walker->right->num);
+    case leafID::POWER: return pow(walker->left->num, walker->right->num);
     case leafID::TRIGONOMOTRY:
         if (walker->c == "sin"){
             return sin(walker->right->num);

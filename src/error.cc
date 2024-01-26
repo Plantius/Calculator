@@ -30,7 +30,6 @@ inputError::inputError(const std::string error){
     this->type = errorHandler::INPUT;
 }// default token error constructor
 
-
 void errorHandler::printError() const {
     std::cerr << std::string(((this->getError()).length()+4), '-') << std::endl 
         << this->getRow() << ":" << this->getCol() << ": " << this->getType() << ":\n\t " << this->getError() << std::endl 
