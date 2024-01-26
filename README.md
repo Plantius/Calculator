@@ -26,6 +26,7 @@ Niels Versteeg (s3322637)
 
 ## TODO
 * <del> Add sin, cos and tan
+* Tree check function
 * Stress test
 * Auto separate input
 * Add other calculator functions

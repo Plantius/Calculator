@@ -72,3 +72,56 @@ bool legalInput (const std::string input)
     }
     return true;
 } // legalInput
+
+
+void splitString(const std::string input, std::vector<std::string> &output)
+{
+    std::string temp = {};
+    bool num = false, op = false;
+    for (auto c : input){
+        if (c == ' '){
+            continue;
+        }
+        if (isdigit(c) || c == '.'){
+            if (op){
+                if (output.empty() || (temp == "-" || temp == "+") && !isdigit(output.back()[0])){
+                    temp += c;
+                    num = true, op = false;
+                    continue;
+                }
+                output.push_back(temp);
+                temp.clear();
+                temp += c;
+                num = true, op = false;
+            }else {
+                temp += c;
+                num = true;
+            }
+        }else if (!isdigit(c) && c != '.'){
+            if (isalpha(c)){
+                if (num){
+                    output.push_back(temp);
+                    temp.clear();
+                    temp += c;
+                    num = false, op = true;
+                }else {
+                    temp += c;
+                    op = true;
+                }
+            }else if (c == '+' || c == '-' || c == '*' || c == '/' || c == '^' || 
+                      c == '(' || c == ')'){
+                if (num || temp.size() >= 1){
+                    output.push_back(temp);
+                    temp.clear();
+                    temp += c;
+                    num = false, op = true;
+                }else {
+                    temp += c;
+                    op = true;
+                }
+            }
+            
+        }
+    }
+    output.push_back(temp);
+} // splitString

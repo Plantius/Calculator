@@ -37,19 +37,23 @@ void parser::deleteTree(leaf* &walker) const
 void parser::createTree(const std::string input)
 {
     leaf* start = nullptr;
-    std::vector<std::string> tokenizedInput = {}, prefix = {};
+    std::vector<std::string> tokenizedInput = {}, prefix = {}, test = {};
     std::stringstream ss(input);
     std::string element = {};
-        
+    
+    splitString(input, test);
+    for (auto c : test){
+        cout << c << endl;
+    }
+
     while(ss >> element){
         tokenizedInput.push_back(element);
     }
 
     infixToPrefix(tokenizedInput, prefix);
     for (auto c : prefix){
-        cout << c;
         addBranch(start, c, getLeafID(c));
-    }cout << endl;
+    }
     printTree();
     calculate();
 } // createTree
@@ -105,7 +109,9 @@ void parser::calculate() const
     leaf* walker = begin;
 
     recursionSimplify(walker);
+    cout << ": ";
     printTree();
+    cout << endl;
 } // calculate
 
 void parser::recursionSimplify(leaf* &walker) const
@@ -175,7 +181,7 @@ void parser::printTree() const
 {
     leaf* walker = begin;
     recursionPrintTree(walker);
-    std::cout << std::endl;
+    
 } // printTree
 
 

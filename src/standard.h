@@ -21,4 +21,7 @@ bool isUnary(const leaf* branch);
 leafID getLeafID(const std::string c);
 
 bool legalInput(const std::string input);
+
+void splitString(const std::string input, std::vector<std::string> &output);
+
 #endif
