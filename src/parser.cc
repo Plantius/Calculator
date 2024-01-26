@@ -41,14 +41,14 @@ void parser::createTree(const std::string input)
     std::stringstream ss(input);
     std::string element = {};
     
-    splitString(input, test);
-    for (auto c : test){
+    splitString(input, tokenizedInput);
+    for (auto c : tokenizedInput){
         cout << c << endl;
     }
 
-    while(ss >> element){
-        tokenizedInput.push_back(element);
-    }
+    // while(ss >> element){
+    //     tokenizedInput.push_back(element);
+    // }
 
     infixToPrefix(tokenizedInput, prefix);
     for (auto c : prefix){
