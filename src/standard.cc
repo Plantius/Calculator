@@ -78,38 +78,36 @@ void splitString(const std::string input, std::vector<std::string> &output)
 {
     std::string temp = {};
     bool num = false, op = false;
+    
     for (auto c : input){
         if (c == ' '){
             continue;
         }
         if (isdigit(c) || c == '.'){
             if (op){
-                if (output.empty() || (temp == "-" || temp == "+") && !isdigit(output.back()[0])){
+                if ((temp == "-" || temp == "+") && 
+                    (output.empty() || !isdigit(output.back()[0]))){
                     temp += c;
                     num = true, op = false;
                     continue;
                 }
                 output.push_back(temp);
                 temp.clear();
-                temp += c;
-                num = true, op = false;
-            }else {
-                temp += c;
-                num = true;
+                op = false;
             }
-        }else if (!isdigit(c) && c != '.'){
+            temp += c;
+            num = true;
+        }else {
             if (isalpha(c)){
                 if (num){
                     output.push_back(temp);
                     temp.clear();
-                    temp += c;
-                    num = false, op = true;
-                }else {
-                    temp += c;
-                    op = true;
+                    num = false;
                 }
-            }else if (c == '+' || c == '-' || c == '*' || c == '/' || c == '^' || 
-                      c == '(' || c == ')'){
+                temp += c;
+                op = true;
+            }else if (c == '+' || c == '-' || c == '*' || c == '/' || 
+                      c == '^' || c == '(' || c == ')'){
                 if (num || temp.size() >= 1){
                     output.push_back(temp);
                     temp.clear();
