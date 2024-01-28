@@ -1,5 +1,5 @@
 #include "standard.h"
-#include <cmath>
+#include <math.h>
 #include <sstream>
 #include <unordered_map>
 
@@ -27,15 +27,16 @@ prec precedence(const std::string c)
         {"-", prec::MIN},
         {"sin", prec::TRIG},
         {"cos", prec::TRIG},
-        {"tan", prec::TRIG},
+        {"tan", prec::TRIG}
     };
+
     auto it = precedenceMap.find(c);
-    return (it != precedenceMap.end() ? it->second : prec::INVALID);
+    return (it != precedenceMap.end()) ? it->second : prec::INVALID;
 } // precedence
 
 bool isUnary(const leaf* branch)
 {
-    return ((branch->id != leafId::INVALID && branch->id != leafId::INT && branch->id != leafId::DOUBLE) ? true : false);
+    return (branch->id != leafId::INVALID && branch->id != leafId::INT && branch->id != leafId::DOUBLE);
 } // isUnary
 
 leafId getLeafID(const std::string c)
@@ -54,10 +55,11 @@ leafId getLeafID(const std::string c)
         {"-", leafId::MIN},
         {"sin", leafId::TRIG},
         {"cos", leafId::TRIG},
-        {"tan", leafId::TRIG},
+        {"tan", leafId::TRIG}
     };
+
     auto it = leafIdMap.find(c);
-    return (it != leafIdMap.end() ? it->second : leafId::INVALID);
+    return (it != leafIdMap.end()) ? it->second : leafId::INVALID;
 } // getLeafID
 
 
@@ -78,7 +80,7 @@ void splitString(const std::string input, std::vector<std::string> &output)
     bool num = false, op = false;
 
     for (auto c : input){
-        if (std::isspace(c)){
+        if (isspace(c)){
             continue;
         }
         if (isdigit(c) || c == '.'){

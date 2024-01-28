@@ -19,6 +19,9 @@ SRC_PATH := src
 DBG_PATH := debug
 WIN_PATH := win
 
+# test_file
+TEST_FILE := test
+
 # compile macros
 TARGET_NAME := calc
 ifeq ($(OS),Windows_NT)
@@ -72,6 +75,10 @@ makedir:
 
 .PHONY: all
 all: $(TARGET)
+
+.PHONY: test
+test: $(TARGET)
+	./$(TARGET) < $(TEST_FILE)
 
 .PHONY: debug
 debug: $(TARGET_DEBUG)

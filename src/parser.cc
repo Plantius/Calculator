@@ -63,8 +63,8 @@ bool parser::addBranch(leaf* &walker, const std::string c, const leafId id)
 
     if (begin == nullptr && walker == nullptr){
         begin = new leaf(nullptr, nullptr, c, id, 
-                        (id == leafId::INT ? atoi(c.c_str()) : 0), 
-                        (id == leafId::DOUBLE ? atof(c.c_str()) : 0));
+            (id == leafId::INT ? atoi(c.c_str()) : 0), 
+            (id == leafId::DOUBLE ? atof(c.c_str()) : 0));
         walker = begin;
         return true;
     }else if (isUnary(walker)){
@@ -73,8 +73,8 @@ bool parser::addBranch(leaf* &walker, const std::string c, const leafId id)
                 done = addBranch(walker->right, c, id);
             }else {
                 walker->right = new leaf(nullptr, nullptr, c, id, 
-                                        (id == leafId::INT ? atoi(c.c_str()) : 0), 
-                                        (id == leafId::DOUBLE ? atof(c.c_str()) : 0));
+                    (id == leafId::INT ? atoi(c.c_str()) : 0), 
+                    (id == leafId::DOUBLE ? atof(c.c_str()) : 0));
                 return true;
             }
             return done;
@@ -83,8 +83,8 @@ bool parser::addBranch(leaf* &walker, const std::string c, const leafId id)
                 done = addBranch(walker->left, c, id);
             }else {
                 walker->left = new leaf(nullptr, nullptr, c, id, 
-                                       (id == leafId::INT ? atoi(c.c_str()) : 0), 
-                                       (id == leafId::DOUBLE ? atof(c.c_str()) : 0));
+                    (id == leafId::INT ? atoi(c.c_str()) : 0), 
+                    (id == leafId::DOUBLE ? atof(c.c_str()) : 0));
                 return true;
             }
             if (!done){
@@ -92,8 +92,8 @@ bool parser::addBranch(leaf* &walker, const std::string c, const leafId id)
                     done = addBranch(walker->right, c, id);
                 }else {
                     walker->right = new leaf(nullptr, nullptr, c, id, 
-                                            (id == leafId::INT ? atoi(c.c_str()) : 0), 
-                                            (id == leafId::DOUBLE ? atof(c.c_str()) : 0));
+                        (id == leafId::INT ? atoi(c.c_str()) : 0), 
+                        (id == leafId::DOUBLE ? atof(c.c_str()) : 0));
                     return true;
                 }
             }
@@ -228,6 +228,7 @@ double parser::calculateBranch(leaf* &walker) const
 ================================================================
 */
 
+
 void parser::printTree() const
 {
     leaf* walker = begin;
@@ -267,22 +268,24 @@ void parser::recursionPrintTree(leaf* &walker) const
 void parser::infixToPostfix(const std::vector<std::string> infix, std::vector<std::string> &postfix) const
 {
     std::stack<std::string> st;
-    std::stringstream ss;
     double temp = {};
 
     for (auto c : infix){
-        ss.clear();
-        ss << c;
+        std::stringstream ss(c);
         if (ss >> temp){
             postfix.push_back(c);
         }else if (c == "("){
             st.push(c);
         }else if (c == ")"){
-            while (st.top() != "("){
+            while (!st.empty() && st.top() != "("){
                 postfix.push_back(st.top());
                 st.pop();
             }
-            st.pop();
+            if (!st.empty()){
+                st.pop();
+            }else {
+                throw parseError("Mismatched parantheses.");
+            }
         }else{
             while (!st.empty() && (precedence(c) < precedence(st.top()) || 
                    (precedence(c) == precedence(st.top()) && c != "^"))){

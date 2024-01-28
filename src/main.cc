@@ -28,7 +28,6 @@ int main()
                     throw inputError("Invalid input: " + input);
                 }
                 parseTree.createTree(input);
-                
             }
             catch(const parseError error){
                 error.printError();
