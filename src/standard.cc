@@ -1,4 +1,6 @@
 #include "standard.h"
+#include <math.h>
+#include <sstream>
 
 void reverseString(const std::vector<std::string> input, std::vector<std::string> &output)
 {   

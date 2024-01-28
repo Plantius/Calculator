@@ -1,12 +1,10 @@
 #ifndef STANDARD_H
 #define STANDARD_H
-#include <iostream>
-#include <math.h>
-#include <vector>
-#include <sstream>
-
 #include "leaf.h"
 #include "error.h"
+#include <vector>
+#include <string>
+
 
 enum class prec {PLUS = 1, MIN = 1, TRIG = 3, LOG = 3, MUL = 2, DIV = 2, POW = 3, INVALID = -1};
 

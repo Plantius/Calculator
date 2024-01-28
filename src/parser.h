@@ -1,7 +1,6 @@
 #ifndef PARSER_H
 #define PARSER_H
 #include "standard.h"
-#include <stack>
 
 class parser
 {

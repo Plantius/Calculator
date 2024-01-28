@@ -1,6 +1,7 @@
 #include "parser.h"
+#include <iostream>
 
-void startMenu()
+inline void startMenu()
 {
     std::cout << "Calculator" << std::endl;
     std::cout << "Exit with \"end\" or \"exit\"" << std::endl;

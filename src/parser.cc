@@ -1,4 +1,9 @@
 #include "parser.h"
+#include <math.h>
+#include <stack>
+#include <sstream>
+#include <iostream>
+
 using std::cout, std::endl;
 
 parser::~parser()
@@ -37,10 +42,10 @@ void parser::createTree(const std::string input)
     std::string element = {};
     
     splitString(input, tokenizedInput);
-    // for (auto c : tokenizedInput){
-    //     cout << c << endl;
-    // }
+   
     infixToPrefix(tokenizedInput, prefix);
+    
+    // Adds all tokens to a tree
     for (auto c : prefix){
         addBranch(start, c, getLeafID(c)) ? 0 : throw parseError("Invalid tree branch.");
     }
@@ -54,9 +59,9 @@ bool parser::addBranch(leaf* &walker, const std::string c, const leafID id)
     bool done = false;
 
     if (begin == nullptr && walker == nullptr){
-        begin = new leaf(nullptr, nullptr, c, id);
-        begin->intNum = (id == leafID::INT ? (atoi(c.c_str())) : 0);
-        begin->doubleNum = (id == leafID::DOUBLE ? atof(c.c_str()) : 0); 
+        begin = new leaf(nullptr, nullptr, c, id, 
+                        (id == leafID::INT ? atoi(c.c_str()) : 0), 
+                        (id == leafID::DOUBLE ? atof(c.c_str()) : 0));
         walker = begin;
         return true;
     }else if (isUnary(walker)){
@@ -64,9 +69,9 @@ bool parser::addBranch(leaf* &walker, const std::string c, const leafID id)
             if (walker->right != nullptr){
                 done = addBranch(walker->right, c, id);
             }else {
-                walker->right = new leaf(nullptr, nullptr, c, id);
-                walker->right->intNum = (id == leafID::INT ? atoi(c.c_str()) : 0);
-                walker->right->doubleNum = (id == leafID::DOUBLE ? atof(c.c_str()) : 0); 
+                walker->right = new leaf(nullptr, nullptr, c, id, 
+                                        (id == leafID::INT ? atoi(c.c_str()) : 0), 
+                                        (id == leafID::DOUBLE ? atof(c.c_str()) : 0));
                 return true;
             }
             return done;
@@ -74,18 +79,18 @@ bool parser::addBranch(leaf* &walker, const std::string c, const leafID id)
             if (walker->left != nullptr){
                 done = addBranch(walker->left, c, id);
             }else {
-                walker->left = new leaf(nullptr, nullptr, c, id);
-                walker->left->intNum = (id == leafID::INT ? atoi(c.c_str()) : 0);
-                walker->left->doubleNum = (id == leafID::DOUBLE ? atof(c.c_str()) : 0); 
+                walker->left = new leaf(nullptr, nullptr, c, id, 
+                                       (id == leafID::INT ? atoi(c.c_str()) : 0), 
+                                       (id == leafID::DOUBLE ? atof(c.c_str()) : 0));
                 return true;
             }
             if (!done){
                 if (walker->right != nullptr){
                     done = addBranch(walker->right, c, id);
                 }else {
-                    walker->right = new leaf(nullptr, nullptr, c, id);
-                    walker->right->intNum = (id == leafID::INT ? atoi(c.c_str()) : 0);
-                    walker->right->doubleNum = (id == leafID::DOUBLE ? atof(c.c_str()) : 0); 
+                    walker->right = new leaf(nullptr, nullptr, c, id, 
+                                            (id == leafID::INT ? atoi(c.c_str()) : 0), 
+                                            (id == leafID::DOUBLE ? atof(c.c_str()) : 0));
                     return true;
                 }
             }

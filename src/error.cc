@@ -1,9 +1,8 @@
 /**
 * Implementation of the error handler
 * Niels Versteeg (s3322637)
-* Lana van Sprang (s3272192)
 * error.cc
-* 05-10-2023
+* 28-01-2024
 **/
 
 #include "error.h"
