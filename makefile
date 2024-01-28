@@ -1,11 +1,13 @@
 # tool macros
 CC ?= gcc
 CXX ?= g++
-CXXWIN ?= x86_64-w64-mingw32-g++ 
+CXXWIN ?= x86_64-w64-mingw32-g++ --static
 CFLAGS := -O1 -Wall -Wextra -Wpedantic -Wconversion \
 		  -Wcast-align -Wunused -Wold-style-cast \
 		  -Wpointer-arith -Wcast-qual 
-CXXFLAGS := -O1	 -Wall -Wextra -Wpedantic 
+CXXFLAGS := -O1 -Wall -Wextra -Wpedantic -Wconversion \
+		  -Wcast-align -Wunused -Wold-style-cast \
+		  -Wpointer-arith -Wcast-qual 
 DBGFLAGS := -g
 COBJFLAGS := $(CFLAGS) -c
 
@@ -33,7 +35,8 @@ OBJ_DEBUG := $(addprefix $(DBG_PATH)/, $(addsuffix .o, $(notdir $(basename $(SRC
 
 # clean files list
 DISTCLEAN_LIST := $(OBJ) \
-                  $(OBJ_DEBUG)
+                  $(OBJ_DEBUG) \
+				  $(OBJ_WIN)
 CLEAN_LIST := $(TARGET) \
 			  $(TARGET_DEBUG) \
 			  $(TARGET_WIN) \
@@ -44,13 +47,13 @@ default: makedir all
 
 # non-phony targets
 $(TARGET): $(OBJ)
-	$(CXX) -o $@ $(OBJ) $(CFLAGS) 
+	$(CXX) -o $@ $(OBJ) $(CXXFLAGS) 
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c*
 	$(CXX) $(COBJFLAGS) -o $@ $< 
 
 $(TARGET_WIN): $(OBJ_WIN)
-	$(CXXWIN) -o $@ $(OBJ_WIN) $(CFLAGS) 
+	$(CXXWIN) -o $@ $(OBJ_WIN) $(CXXFLAGS) 
 
 $(WIN_PATH)/%.o: $(SRC_PATH)/%.c*
 	$(CXXWIN) $(COBJFLAGS) -o $@ $< 
@@ -59,7 +62,7 @@ $(DBG_PATH)/%.o: $(SRC_PATH)/%.c*
 	$(CXX) $(COBJFLAGS) $(DBGFLAGS) -o $@ $<
 
 $(TARGET_DEBUG): $(OBJ_DEBUG)
-	$(CXX) -o $@ $(CFLAGS) $(DBGFLAGS) $(OBJ_DEBUG) 
+	$(CXX) -o $@ $(CXXFLAGS) $(DBGFLAGS) $(OBJ_DEBUG) 
 
 # phony rules
 .PHONY: makedir

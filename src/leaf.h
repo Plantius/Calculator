@@ -1,5 +1,6 @@
 #ifndef LEAF_H
 #define LEAF_H
+#include <string>
 
 enum class leafID {PLUS, MIN, MULTIPLICATION, DIVIDE, POWER, TRIGONOMOTRY, LOGARITHM, NUMBER, INVALID=-1};
 
