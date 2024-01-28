@@ -4,8 +4,8 @@
 
 enum class leafId 
 {
-    PLUS, MIN, MULTIPLICATION, DIVIDE, 
-    POWER, TRIGONOMOTRY, LOGARITHM, 
+    PLUS, MIN, MUL, DIV, 
+    POW, TRIG, LOG, 
     DOUBLE, INT, INVALID=-1
 };
 

@@ -68,7 +68,7 @@ bool parser::addBranch(leaf* &walker, const std::string c, const leafId id)
         walker = begin;
         return true;
     }else if (isUnary(walker)){
-        if (walker->id == leafId::TRIGONOMOTRY){
+        if (walker->id == leafId::TRIG){
             if (walker->right != nullptr){
                 done = addBranch(walker->right, c, id);
             }else {
@@ -126,7 +126,7 @@ bool parser::recursionCheckTree(leaf* &walker) const
     }
 
     if (isUnary(walker)){
-        if (walker->id == leafId::TRIGONOMOTRY){
+        if (walker->id == leafId::TRIG){
             return (walker->right != nullptr);
         }
         return (walker->left != nullptr && walker->right != nullptr);
@@ -194,19 +194,19 @@ double parser::calculateBranch(leaf* &walker) const
     case leafId::MIN: 
         return (walker->left->id == leafId::INT ? walker->left->intNum : walker->left->doubleNum) -
                (walker->right->id == leafId::INT ? walker->right->intNum : walker->right->doubleNum);
-    case leafId::MULTIPLICATION: 
+    case leafId::MUL: 
         return (walker->left->id == leafId::INT ? walker->left->intNum : walker->left->doubleNum) *
                (walker->right->id == leafId::INT ? walker->right->intNum : walker->right->doubleNum);
-    case leafId::DIVIDE: 
+    case leafId::DIV: 
         if ((walker->right->id == leafId::INT ? walker->right->intNum : walker->right->doubleNum) == 0){
             throw parseError("Division by zero. Right branch of leaf is zero.");
         }
         return (walker->left->id == leafId::INT ? walker->left->intNum : walker->left->doubleNum) / 
                (walker->right->id == leafId::INT ? walker->right->intNum : walker->right->doubleNum);
-    case leafId::POWER: 
+    case leafId::POW: 
         return pow((walker->left->id == leafId::INT ? walker->left->intNum : walker->left->doubleNum), 
                (walker->right->id == leafId::INT ? walker->right->intNum : walker->right->doubleNum));
-    case leafId::TRIGONOMOTRY:
+    case leafId::TRIG:
         if (walker->c == "sin"){
             return sin((walker->right->id == leafId::INT ? walker->right->intNum : walker->right->doubleNum));
         }else if (walker->c == "cos"){
@@ -246,12 +246,12 @@ void parser::recursionPrintTree(leaf* &walker) const
     std::cout << (walker->id == leafId::INT ? walker->intNum : walker->doubleNum);  
     }else {
         std::cout << walker->c;
-        if (walker->id == leafId::TRIGONOMOTRY){
+        if (walker->id == leafId::TRIG){
             std::cout << "(";
         }
     }
     recursionPrintTree(walker->right);
-    if (walker->id == leafId::TRIGONOMOTRY){
+    if (walker->id == leafId::TRIG){
         std::cout << ")";
     }
 } // recursionPrintTree

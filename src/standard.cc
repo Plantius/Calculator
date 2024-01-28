@@ -45,20 +45,19 @@ leafId getLeafID(const std::string c)
     if (ss >> tempDouble){
         return (tempDouble == floor(tempDouble) ? leafId::INT : leafId::DOUBLE);
     }
-    if (c == "^"){
-        return leafId::POWER;
-    }else if (c == "*"){
-        return leafId::MULTIPLICATION;
-    }else if (c == "/"){
-        return leafId::DIVIDE;
-    }else if (c == "+"){
-        return leafId::PLUS;
-    }else if (c == "-"){
-        return leafId::MIN;
-    }else if (c == "sin" || c == "cos" || c == "tan"){
-        return leafId::TRIGONOMOTRY;
-    }
-    return leafId::INVALID;
+    static const std::unordered_map<std::string, leafId> leafIdMap = 
+    {
+        {"^", leafId::POW},
+        {"*", leafId::MUL},
+        {"/", leafId::DIV},
+        {"+", leafId::PLUS},
+        {"-", leafId::MIN},
+        {"sin", leafId::TRIG},
+        {"cos", leafId::TRIG},
+        {"tan", leafId::TRIG},
+    };
+    auto it = leafIdMap.find(c);
+    return (it != leafIdMap.end() ? it->second : leafId::INVALID);
 } // getLeafID
 
 
