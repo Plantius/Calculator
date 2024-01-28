@@ -51,7 +51,8 @@ Niels Versteeg (s3322637)
 
 ## TODO
 * <del> Add sin, cos and tan
-* Tree check function
+* <del> Tree check function
 * Stress test
 * <del> Auto separate input
 * Add other calculator functions
+* Check code consistency
