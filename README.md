@@ -8,6 +8,7 @@ This project is a simple calculator in the terminal, which receives a normal mat
 
 ## Installing
 #### Linux
+***
 Build the project using the MakeFile:
 ```
 make
@@ -26,6 +27,7 @@ make run
 ```
 
 #### Windows
+***
 Build the project using the MakeFile:
 ```
 make win
