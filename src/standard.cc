@@ -33,7 +33,7 @@ prec precedence(const std::string c)
 
 bool isUnary(const leaf* branch)
 {
-    if (branch->id != leafID::INVALID && branch->id != leafID::NUMBER){
+    if (branch->id != leafID::INVALID && branch->id != leafID::INT && branch->id != leafID::DOUBLE){
         return true;
     }
     return false;
@@ -42,9 +42,9 @@ bool isUnary(const leaf* branch)
 leafID getLeafID(const std::string c)
 {
     std::stringstream ss(c);
-    double temp = {};
-    if (ss >> temp){
-        return leafID::NUMBER;
+    double tempDouble = {};
+    if (ss >> tempDouble){
+        return (tempDouble == floor(tempDouble) ? leafID::INT : leafID::DOUBLE);
     }
     if (c == "^"){
         return leafID::POWER;
