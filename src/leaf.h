@@ -8,9 +8,9 @@ enum class leafID {PLUS, MIN, MULTIPLICATION, DIVIDE,
 
 struct leaf
 {   
-    leaf() {};
+    leaf() : left(nullptr), right(nullptr), c({}), id(leafID::INVALID), intNum(0), doubleNum(0) {};
     leaf(leaf* left, leaf* right, const std::string c, const leafID id) : 
-        left(left), right(right), c(c), id(id) {};
+        left(left), right(right), c(c), id(id), intNum(0), doubleNum(0) {};
     
     leaf* left;
     leaf* right;
@@ -18,7 +18,7 @@ struct leaf
     std::string c;
     leafID id;
     int intNum;
-    double doublenum;
+    double doubleNum;
 };
 
 #endif
