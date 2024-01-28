@@ -18,11 +18,14 @@ int main()
         startMenu();
         while (std::getline(std::cin >> std::ws, input) && 
                input != "exit" && input != "e" && input != "end"){
+            parseTree.clearTree();
             try
             {
-                parseTree.~parser();
+                if (input.empty()){
+                    throw inputError("Input cannot be empty. Please enter a valid mathematical expression.");
+                }
                 if (!legalInput(input)){
-                    throw inputError("Invalid input.");
+                    throw inputError("Invalid input: " + input);
                 }
                 parseTree.createTree(input);
                 

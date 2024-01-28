@@ -12,13 +12,19 @@ class parser
         parser() : cursorChar('>'), begin(nullptr) {};
         ~parser();
 
+        void clearTree();
         void deleteTree(leaf* &walker) const;
 
-        void infixToPostfix(const std::vector<std::string> infix, std::vector<std::string> &postfix) const;
-        void infixToPrefix(const std::vector<std::string> infix, std::vector<std::string> &prefix) const;
+        bool checkTree() const;
+        bool recursionCheckTree(leaf* &walker) const;
+
+        void infixToPostfix(const std::vector<std::string> infix, 
+                            std::vector<std::string> &postfix) const;
+        void infixToPrefix(const std::vector<std::string> infix, 
+                           std::vector<std::string> &prefix) const;
         
         void createTree(const std::string input);
-        bool addBranch(leaf* &walker, const std::string c, const leafID id);
+        bool addBranch(leaf* &walker, const std::string c, const leafId id);
 
         void printTree() const;
         void recursionPrintTree(leaf* &walker) const;

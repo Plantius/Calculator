@@ -1,11 +1,12 @@
 # tool macros
 CC ?= gcc
 CXX ?= g++
-CXXWIN ?= x86_64-w64-mingw32-g++ --static
-CFLAGS := -O1 -Wall -Wextra -Wpedantic -Wconversion \
+OPTIMIZER := -O1
+CXXWIN := x86_64-w64-mingw32-g++ --static
+CFLAGS := $(OPTIMIZER) -Wall -Wextra -Wpedantic -Wconversion \
 		  -Wcast-align -Wunused -Wold-style-cast \
 		  -Wpointer-arith -Wcast-qual 
-CXXFLAGS := -O1 -Wall -Wextra -Wpedantic -Wconversion \
+CXXFLAGS := -Wall -Wextra -Wpedantic -Wconversion \
 		  -Wcast-align -Wunused -Wold-style-cast \
 		  -Wpointer-arith -Wcast-qual 
 DBGFLAGS := -g

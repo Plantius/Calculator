@@ -1,6 +1,7 @@
 #include "standard.h"
-#include <math.h>
+#include <cmath>
 #include <sstream>
+#include <unordered_map>
 
 void reverseString(const std::vector<std::string> input, std::vector<std::string> &output)
 {   
@@ -17,51 +18,47 @@ void reverseString(const std::vector<std::string> input, std::vector<std::string
 
 prec precedence(const std::string c)
 {
-    if (c == "^"){
-        return prec::POW;
-    }else if (c == "*"){
-        return prec::MUL;
-    }else if (c == "/"){
-        return prec::DIV;
-    }else if (c == "+"){
-        return prec::PLUS;
-    }else if (c == "-"){
-        return prec::MIN;
-    }else if (c == "sin" || c == "cos" || c == "tan"){
-        return prec::TRIG;
-    }
-    return prec::INVALID;
+    static const std::unordered_map<std::string, prec> precedenceMap = 
+    {
+        {"^", prec::POW},
+        {"*", prec::MUL},
+        {"/", prec::DIV},
+        {"+", prec::PLUS},
+        {"-", prec::MIN},
+        {"sin", prec::TRIG},
+        {"cos", prec::TRIG},
+        {"tan", prec::TRIG},
+    };
+    auto it = precedenceMap.find(c);
+    return (it != precedenceMap.end() ? it->second : prec::INVALID);
 } // precedence
 
 bool isUnary(const leaf* branch)
 {
-    if (branch->id != leafID::INVALID && branch->id != leafID::INT && branch->id != leafID::DOUBLE){
-        return true;
-    }
-    return false;
+    return ((branch->id != leafId::INVALID && branch->id != leafId::INT && branch->id != leafId::DOUBLE) ? true : false);
 } // isUnary
 
-leafID getLeafID(const std::string c)
+leafId getLeafID(const std::string c)
 {
     std::stringstream ss(c);
     double tempDouble = {};
     if (ss >> tempDouble){
-        return (tempDouble == floor(tempDouble) ? leafID::INT : leafID::DOUBLE);
+        return (tempDouble == floor(tempDouble) ? leafId::INT : leafId::DOUBLE);
     }
     if (c == "^"){
-        return leafID::POWER;
+        return leafId::POWER;
     }else if (c == "*"){
-        return leafID::MULTIPLICATION;
+        return leafId::MULTIPLICATION;
     }else if (c == "/"){
-        return leafID::DIVIDE;
+        return leafId::DIVIDE;
     }else if (c == "+"){
-        return leafID::PLUS;
+        return leafId::PLUS;
     }else if (c == "-"){
-        return leafID::MIN;
+        return leafId::MIN;
     }else if (c == "sin" || c == "cos" || c == "tan"){
-        return leafID::TRIGONOMOTRY;
+        return leafId::TRIGONOMOTRY;
     }
-    return leafID::INVALID;
+    return leafId::INVALID;
 } // getLeafID
 
 
@@ -82,7 +79,7 @@ void splitString(const std::string input, std::vector<std::string> &output)
     bool num = false, op = false;
 
     for (auto c : input){
-        if (c == ' '){
+        if (std::isspace(c)){
             continue;
         }
         if (isdigit(c) || c == '.'){

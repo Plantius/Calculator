@@ -10,6 +10,11 @@
 #define ERROR_H
 #include <iostream>
 
+enum class errorType 
+{
+    MEMORY, INPUT, PARSE, TOKEN
+};
+
 // Base error class
 class errorHandler{
     public:
@@ -20,17 +25,17 @@ class errorHandler{
         * @function: getError
         * @abstract: Geeft de error string terug.
         **/
-        std::string getError() const {return this->error;};
+        std::string getError() const {return error;};
         
         /**
         * @function: getType
         * @abstract: Geeft de error type string terug.
         **/
-        std::string getType() const {return this->type;};
+        errorType getType() const {return type;};
 
-        int getRow() const {return this->row;};
+        int getRow() const {return row;};
         
-        int getCol() const {return this->col;};
+        int getCol() const {return col;};
 
         /**
         * @function: printError
@@ -39,12 +44,8 @@ class errorHandler{
         void printError() const;
     protected:
         std::string error;      // Error message
-        std::string type;       // Error type
+        errorType type;       // Error type
         int row, col;
-        const std::string MEMORY = "Memory Error";
-        const std::string INPUT = "Input Error";
-        const std::string PARSE = "Parse Error";
-        const std::string TOKEN = "Token Error";
 }; // errorHandler
 
 // Handles memory errors
@@ -55,7 +56,7 @@ class memoryError : public errorHandler{
         * @abstract: Constructor
         * @param err: set error to err 
         **/
-        memoryError(const std::string err);
+        memoryError(const std::string err) : errorHandler() {error = err; type = errorType::MEMORY;};
 }; // memoryError
 
 // Handles input errors
@@ -66,7 +67,7 @@ class inputError : public errorHandler{
         * @abstract: Constructor
         * @param err: set error to err 
         **/
-        inputError(const std::string err);
+        inputError(const std::string err)  : errorHandler() {error = err; type = errorType::INPUT;};
 }; // inputError
 
 // Handles input errors
@@ -77,7 +78,7 @@ class parseError : public errorHandler{
         * @abstract: Constructor
         * @param err: set error to err 
         **/
-        parseError(const std::string err);
+        parseError(const std::string err)  : errorHandler() {error = err; type = errorType::PARSE;};
 }; // inputError
 
 // Handles input errors
@@ -89,7 +90,7 @@ class tokenError : public errorHandler{
         * @param err: set error to err 
         **/
         tokenError(const std::string err,
-                   const int row, const int col);
+                   const int row, const int col)  : errorHandler() {error = err; type = errorType::TOKEN; this->row = row; this->col = col;};
 }; // inputError
 
 
