@@ -6,9 +6,11 @@
 class parser
 {
     private:
+        char cursorChar;
+
         leaf* begin;
     public:
-        parser();
+        parser() : cursorChar('>'), begin(nullptr) {};
         ~parser();
 
         void deleteTree(leaf* &walker) const;

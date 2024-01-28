@@ -1,11 +1,6 @@
 #include "parser.h"
 using std::cout, std::endl;
 
-parser::parser()
-{
-    begin = nullptr;
-} // Default Constructor
-
 parser::~parser()
 {
     deleteTree(begin);
@@ -50,7 +45,6 @@ void parser::createTree(const std::string input)
         addBranch(start, c, getLeafID(c)) ? 0 : throw parseError("Invalid tree branch.");
     }
     printTree();
-    cout << endl;
     calculate();
 } // createTree
 
@@ -61,10 +55,8 @@ bool parser::addBranch(leaf* &walker, const std::string c, const leafID id)
 
     if (begin == nullptr && walker == nullptr){
         begin = new leaf(nullptr, nullptr, c, id);
-        if (id == leafID::INT || id == leafID::DOUBLE){
-            begin->intNum = (id == leafID::INT ? (atoi(c.c_str())) : 0);
-            begin->doubleNum = (id == leafID::DOUBLE ? atof(c.c_str()) : 0); 
-        }
+        begin->intNum = (id == leafID::INT ? (atoi(c.c_str())) : 0);
+        begin->doubleNum = (id == leafID::DOUBLE ? atof(c.c_str()) : 0); 
         walker = begin;
         return true;
     }else if (isUnary(walker)){
@@ -73,10 +65,8 @@ bool parser::addBranch(leaf* &walker, const std::string c, const leafID id)
                 done = addBranch(walker->right, c, id);
             }else {
                 walker->right = new leaf(nullptr, nullptr, c, id);
-                if (id == leafID::INT || id == leafID::DOUBLE){
-                    walker->right->intNum = (id == leafID::INT ? atoi(c.c_str()) : 0);
-                    walker->right->doubleNum = (id == leafID::DOUBLE ? atof(c.c_str()) : 0); 
-                }
+                walker->right->intNum = (id == leafID::INT ? atoi(c.c_str()) : 0);
+                walker->right->doubleNum = (id == leafID::DOUBLE ? atof(c.c_str()) : 0); 
                 return true;
             }
             return done;
@@ -85,10 +75,8 @@ bool parser::addBranch(leaf* &walker, const std::string c, const leafID id)
                 done = addBranch(walker->left, c, id);
             }else {
                 walker->left = new leaf(nullptr, nullptr, c, id);
-                if (id == leafID::INT || id == leafID::DOUBLE){
-                    walker->left->intNum = (id == leafID::INT ? atoi(c.c_str()) : 0);
-                    walker->left->doubleNum = (id == leafID::DOUBLE ? atof(c.c_str()) : 0); 
-                }
+                walker->left->intNum = (id == leafID::INT ? atoi(c.c_str()) : 0);
+                walker->left->doubleNum = (id == leafID::DOUBLE ? atof(c.c_str()) : 0); 
                 return true;
             }
             if (!done){
@@ -96,10 +84,8 @@ bool parser::addBranch(leaf* &walker, const std::string c, const leafID id)
                     done = addBranch(walker->right, c, id);
                 }else {
                     walker->right = new leaf(nullptr, nullptr, c, id);
-                    if (id == leafID::INT || id == leafID::DOUBLE){
-                        walker->right->intNum = (id == leafID::INT ? atoi(c.c_str()) : 0);
-                        walker->right->doubleNum = (id == leafID::DOUBLE ? atof(c.c_str()) : 0); 
-                    }
+                    walker->right->intNum = (id == leafID::INT ? atoi(c.c_str()) : 0);
+                    walker->right->doubleNum = (id == leafID::DOUBLE ? atof(c.c_str()) : 0); 
                     return true;
                 }
             }
@@ -122,9 +108,8 @@ void parser::calculate() const
     leaf* walker = begin;
 
     recursionSimplify(walker);
-    cout << "> ";
+    cout << cursorChar <<" ";
     printTree();
-    cout << endl;
 } // calculate
 
 void parser::recursionSimplify(leaf* &walker) const
@@ -205,7 +190,7 @@ void parser::printTree() const
 {
     leaf* walker = begin;
     recursionPrintTree(walker);
-    
+    std::cout << std::endl;
 } // printTree
 
 
