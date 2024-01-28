@@ -15,7 +15,8 @@ int main()
     try
     {
         startMenu();
-        while (std::getline(std::cin >> std::ws, input) && input != "exit" && input != "e" && input != "end"){
+        while (std::getline(std::cin >> std::ws, input) && 
+               input != "exit" && input != "e" && input != "end"){
             try
             {
                 parseTree.~parser();

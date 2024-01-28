@@ -46,6 +46,8 @@ void parser::createTree(const std::string input)
     for (auto c : prefix){
         addBranch(start, c, getLeafID(c));
     }
+    printTree();
+    cout << endl;
     calculate();
 } // createTree
 

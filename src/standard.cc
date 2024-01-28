@@ -86,7 +86,7 @@ void splitString(const std::string input, std::vector<std::string> &output)
         if (isdigit(c) || c == '.'){
             if (op){
                 if ((temp == "-" || temp == "+") && 
-                    (output.empty() || (!isdigit(output.back()[0]) && output.back() != ")"))){
+                    (output.empty() || (!isNumber(output.back()) && output.back() != ")"))){
                     temp += c;
                     num = true, op = false;
                     continue;
@@ -124,3 +124,13 @@ void splitString(const std::string input, std::vector<std::string> &output)
     }
     output.push_back(temp);
 } // splitString
+
+bool isNumber(const std::string input)
+{
+    for (auto c : input){
+        if (isdigit(c)){
+            return true;
+        }
+    }
+    return false;
+} // isNumber

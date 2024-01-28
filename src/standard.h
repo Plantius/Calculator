@@ -23,4 +23,6 @@ bool legalInput(const std::string input);
 
 void splitString(const std::string input, std::vector<std::string> &output);
 
+bool isNumber(const std::string input);
+
 #endif
