@@ -1,5 +1,6 @@
 #ifndef LEAF_H
 #define LEAF_H
+
 #include <string>
 
 enum class leafId 
@@ -11,7 +12,7 @@ enum class leafId
 
 struct leaf
 {   
-    leaf() : left(nullptr), right(nullptr), c({}), id(leafId::INVALID), intNum(0), doubleNum(0) {};
+    leaf() : left(nullptr), right(nullptr), c(), id(leafId::INVALID), intNum(0), doubleNum(0) {};
     leaf(leaf* left, leaf* right, const std::string c, const leafId id, const int intNum, const double doubleNum) : 
         left(left), right(right), c(c), id(id), intNum(intNum), doubleNum(doubleNum) {};
     

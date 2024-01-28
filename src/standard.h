@@ -1,5 +1,6 @@
 #ifndef STANDARD_H
 #define STANDARD_H
+
 #include "leaf.h"
 #include "error.h"
 #include <vector>

@@ -4,13 +4,6 @@
 #include <sstream>
 #include <iostream>
 
-parser::~parser()
-{
-    deleteTree(begin);
-    begin = nullptr;
-} // Default Destructor
-
-
 void parser::clearTree()
 {
     deleteTree(begin);

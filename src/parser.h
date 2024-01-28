@@ -1,5 +1,6 @@
 #ifndef PARSER_H
 #define PARSER_H
+
 #include "standard.h"
 
 class parser
@@ -10,7 +11,7 @@ class parser
         leaf* begin;
     public:
         parser() : cursorChar('>'), begin(nullptr) {};
-        ~parser();
+        ~parser() {clearTree();};
 
         void clearTree();
         void deleteTree(leaf* &walker) const;
