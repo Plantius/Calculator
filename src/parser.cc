@@ -65,8 +65,10 @@ bool parser::addBranch(leaf* &walker, const std::string c, const leafID id)
                 done = addBranch(walker->right, c, id);
             }else {
                 walker->right = new leaf(nullptr, nullptr, c, id);
-                walker->right->intNum = atoi(c.c_str());
-                walker->right->doublenum = atof(c.c_str()); 
+                if (id == leafID::INT || id == leafID::DOUBLE){
+                    walker->right->intNum = (id == leafID::INT ? atoi(c.c_str()) : 0);
+                    walker->right->doublenum = (id == leafID::DOUBLE ? atof(c.c_str()) : 0); 
+                }
                 return true;
             }
             return done;
@@ -75,8 +77,10 @@ bool parser::addBranch(leaf* &walker, const std::string c, const leafID id)
                 done = addBranch(walker->left, c, id);
             }else {
                 walker->left = new leaf(nullptr, nullptr, c, id);
-                walker->left->intNum = atoi(c.c_str());
-                walker->left->doublenum = atof(c.c_str()); 
+                if (id == leafID::INT || id == leafID::DOUBLE){
+                    walker->left->intNum = (id == leafID::INT ? atoi(c.c_str()) : 0);
+                    walker->left->doublenum = (id == leafID::DOUBLE ? atof(c.c_str()) : 0); 
+                }
                 return true;
             }
             if (!done){
@@ -84,8 +88,10 @@ bool parser::addBranch(leaf* &walker, const std::string c, const leafID id)
                     done = addBranch(walker->right, c, id);
                 }else {
                     walker->right = new leaf(nullptr, nullptr, c, id);
-                    walker->right->intNum = atoi(c.c_str());
-                    walker->right->doublenum = atof(c.c_str()); 
+                    if (id == leafID::INT || id == leafID::DOUBLE){
+                        walker->right->intNum = (id == leafID::INT ? atoi(c.c_str()) : 0);
+                        walker->right->doublenum = (id == leafID::DOUBLE ? atof(c.c_str()) : 0); 
+                    }
                     return true;
                 }
             }
