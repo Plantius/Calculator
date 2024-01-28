@@ -1,6 +1,6 @@
 # Calculator
 
-A calculator build using a text parser, which builds an abstract syntax tree, and simplifies it.
+A calculator build using a text parser, which builds a binary tree and simplifies it to get the result.
 
 ## Description
 
