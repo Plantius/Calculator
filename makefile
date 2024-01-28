@@ -86,6 +86,10 @@ debug_run: $(TARGET)
 .PHONY: win
 win: $(TARGET_WIN)
 
+.PHONY: win_run
+win_run: $(TARGET_WIN)
+	./$(TARGET_WIN)
+
 .PHONY: clean
 clean:
 	@echo CLEAN $(CLEAN_LIST)

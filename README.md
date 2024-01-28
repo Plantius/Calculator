@@ -9,31 +9,39 @@ This project is a simple calculator in the terminal, which receives a normal mat
 ## Installing
 #### Linux
 Build the project using the MakeFile:
-`
+```
 make
-`
+```
 
 The included makefile will build the project into a binary file.
 
 ### Executing program
 The binary file is located in the */bin* folder, and can be executed with the following code snippet:
-`
+```
 ./calc
-`
+```
+Or:
+```
+make run
+```
 
 #### Windows
 Build the project using the MakeFile:
-`
+```
 make win
-`
+```
 
 The included makefile will build the project into an *.exe* file.
 
 ### Executing program
 The *.exe* file is located in the */bin* folder, and can be executed by double clicking or from the terminal with:
-`
+```
 .\calc
-`
+```
+Or:
+```
+make win_run
+```
 
 ## Authors
 

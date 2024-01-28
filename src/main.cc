@@ -3,6 +3,7 @@
 void startMenu()
 {
     std::cout << "Calculator" << std::endl;
+    std::cout << "Exit with \"end\" or \"exit\"" << std::endl;
     std::cout << "Enter a mathematical expression: ";
 } // startMenu
 
