@@ -39,13 +39,12 @@ void parser::createTree(const std::string input)
     
     splitString(input, tokenizedInput);
     infixToPrefix(tokenizedInput, prefix);
-    for (auto c : tokenizedInput){
-        std::cout << c << std::endl;
-    }
+    
     // Adds all tokens to a tree
     for (auto c : prefix){
         addBranch(start, c, getLeafID(c)) ? 0 : throw parseError("Invalid tree branch.");
     }
+    
     checkTree() ? 0 : throw parseError("The tree is invalid.");
     printTree();
     calculate();
