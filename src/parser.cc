@@ -39,12 +39,10 @@ void parser::createTree(const std::string input)
     
     splitString(input, tokenizedInput);
     infixToPrefix(tokenizedInput, prefix);
-    
     // Adds all tokens to a tree
     for (auto c : prefix){
         addBranch(start, c, getLeafID(c)) ? 0 : throw parseError("Invalid tree branch.");
     }
-    
     checkTree() ? 0 : throw parseError("The tree is invalid.");
     printTree();
     calculate();
@@ -238,9 +236,9 @@ void parser::recursionPrintTree(leaf* &walker) const
     }    
     recursionPrintTree(walker->left);
     if (walker->id == leafId::INT || walker->id == leafId::DOUBLE){
-    std::cout << "N"<<(walker->id == leafId::INT ? walker->intNum : walker->doubleNum);  
+    std::cout << (walker->id == leafId::INT ? walker->intNum : walker->doubleNum);  
     }else {
-        std::cout <<"C"<< walker->c;
+        std::cout << walker->c;
         if (walker->id == leafId::TRIG){
             std::cout << "(";
         }
