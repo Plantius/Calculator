@@ -27,7 +27,9 @@ prec precedence(const std::string c)
         {"-", prec::MIN},
         {"sin", prec::TRIG},
         {"cos", prec::TRIG},
-        {"tan", prec::TRIG}
+        {"tan", prec::TRIG},
+        {"ln", prec::LOG},
+        {"log", prec::LOG}
     };
 
     auto it = precedenceMap.find(c);
@@ -55,7 +57,9 @@ leafId getLeafID(const std::string c)
         {"-", leafId::MIN},
         {"sin", leafId::TRIG},
         {"cos", leafId::TRIG},
-        {"tan", leafId::TRIG}
+        {"tan", leafId::TRIG},
+        {"ln", leafId::LOG},
+        {"log", leafId::LOG}
     };
 
     auto it = leafIdMap.find(c);

@@ -46,6 +46,7 @@ void parser::createTree(const std::string input)
     checkTree() ? 0 : throw parseError("The tree is invalid.");
     printTree();
     calculate();
+    checkTree() ? 0 : throw parseError("The tree is invalid.");
 } // createTree
 
 
@@ -60,7 +61,7 @@ bool parser::addBranch(leaf* &walker, const std::string c, const leafId id)
         walker = begin;
         return true;
     }else if (isUnary(walker)){
-        if (walker->id == leafId::TRIG){
+        if (walker->id == leafId::TRIG || walker->id == leafId::LOG){
             if (walker->right != nullptr){
                 done = addBranch(walker->right, c, id);
             }else {
@@ -118,7 +119,7 @@ bool parser::recursionCheckTree(leaf* &walker) const
     }
 
     if (isUnary(walker)){
-        if (walker->id == leafId::TRIG){
+        if (walker->id == leafId::TRIG || walker->id == leafId::LOG){
             return (walker->right != nullptr);
         }
         return (walker->left != nullptr && walker->right != nullptr);
@@ -207,6 +208,13 @@ double parser::calculateBranch(leaf* &walker) const
             return tan((walker->right->id == leafId::INT ? walker->right->intNum : walker->right->doubleNum));
         }
         break;
+    case leafId::LOG:
+        if (walker->c == "ln"){
+            return log((walker->right->id == leafId::INT ? walker->right->intNum : walker->right->doubleNum));
+        }else if (walker->c == "log"){
+            return log10((walker->right->id == leafId::INT ? walker->right->intNum : walker->right->doubleNum));
+        }
+        break;
     default: 
         throw parseError("Invalid unary operator.");
     }
@@ -292,6 +300,7 @@ void parser::infixToPostfix(const std::vector<std::string> infix, std::vector<st
         st.pop();
     }
 } // infixToPostfix
+
 
 void parser::infixToPrefix(const std::vector<std::string> infix, std::vector<std::string> &prefix) const
 {

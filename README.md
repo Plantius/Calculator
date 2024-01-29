@@ -58,4 +58,4 @@ Niels Versteeg (s3322637)
 * Check code consistency
 
 ## Known issues
-* Negative numbers are not handled properly in some cases: `-1-1-1 = -1`
+* Negative numbers are not handled properly in some cases: `-1-1-1 = -1`. You should use `-1-(1+1) = -3`.

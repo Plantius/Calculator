@@ -9,9 +9,8 @@
 
 enum class prec 
 {
-    PLUS = 1, MIN = 1, TRIG = 4, 
-    LOG = 3, MUL = 2, DIV = 2, 
-    POW = 3, INVALID = -1
+    PLUS = 1, MIN = 1, MUL = 2, DIV = 2, 
+    POW = 3, LOG = 3, TRIG = 3, INVALID = -1
 };
 
 // Reverses the std::string input, and writes the reversed
