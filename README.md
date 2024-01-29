@@ -56,3 +56,6 @@ Niels Versteeg (s3322637)
 * <del> Auto separate input
 * Add other calculator functions
 * Check code consistency
+
+## Known issues
+* Negative numbers are not handled properly in some cases: `-1-1-1 = -1`

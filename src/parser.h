@@ -36,5 +36,4 @@ class parser
         double calculateBranch(leaf* &walker) const;
 };
 
-
 #endif
