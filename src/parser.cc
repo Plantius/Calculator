@@ -40,8 +40,12 @@ void parser::createTree(const std::string input)
     
     splitString(input, tokenizedInput);
     infixToPrefix(tokenizedInput, prefix);
+    for (auto p : results){
+        std::cout << p.first <<", " << p.second <<std::endl;
+    }
     // Adds all tokens to a tree
     for (auto c : prefix){
+        std::cout << convertChar(c) << std::endl;
         addBranch(start, convertChar(c), getLeafID(c)) ? 0 : throw parseError("Invalid tree branch.");
     }
     checkTree() ? 0 : throw parseError("The tree is invalid.");
@@ -163,13 +167,9 @@ void parser::recursionSimplify(leaf* &walker) const
     if (isUnary(walker)){
         result = calculateBranch(walker);
 
-        if (floor(result) == result){
-            walker->id = leafId::INT;
-            walker->intNum = static_cast<int>(result);
-        }else {
-            walker->id = leafId::DOUBLE;
-            walker->doubleNum = result;
-        }
+        walker->id = (floor(result) == result ? leafId::INT : leafId::DOUBLE);
+        walker->intNum = static_cast<int>(result);
+        walker->doubleNum = result;
         walker->c = std::to_string(result);
 
         delete walker->left; 
@@ -275,7 +275,7 @@ void parser::infixToPostfix(const std::vector<std::string> infix, std::vector<st
 
     for (auto c : infix){
         std::stringstream ss(c);
-        if (ss >> temp){
+        if (ss >> temp || c == "pi" || c == "e" || c == "ans"){
             postfix.push_back(c);
         }else if (c == "("){
             st.push(c);
@@ -381,11 +381,11 @@ prec parser::precedence(const std::string c) const
 std::string parser::convertChar(const std::string c)
 {
     if (c == "e"){
-        return "2.718281828459045";
+        return std::to_string(E);
     }else if (c == "pi"){
-        return "3.141592653589793";
+        return std::to_string(PI);
     }else if (c == "ans"){
-        return (!results.empty()? getLeafID(c) == leafId::INT ? std::to_string(results.back().first) : std::to_string(results.back().second) : "0");
+        return (!results.empty()? getLeafID(c) == leafId::INT ? std::to_string(results.back().first) : std::to_string(results.back().second) : "99");
     }
     return c;
 } // convertChar

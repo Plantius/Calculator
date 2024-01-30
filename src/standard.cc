@@ -47,7 +47,8 @@ void splitString(const std::string input, std::vector<std::string> &output)
         if (isdigit(c) || c == '.'){
             if (op){
                 if ((temp == "-" || temp == "+") && 
-                    (output.empty() || (!isNumber(output.back()) && output.back() != ")"))){
+                    (output.empty() || (!isNumber(output.back()) && output.back() != ")" && 
+                                        output.back() != "ans" && output.back() != "e" && output.back() != "pi"))){
                     temp += c;
                     num = true, op = false;
                     continue;
