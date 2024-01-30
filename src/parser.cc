@@ -42,7 +42,7 @@ void parser::createTree(const std::string input)
     infixToPrefix(tokenizedInput, prefix);
     // Adds all tokens to a tree
     for (auto c : prefix){
-        addBranch(start, c, getLeafID(c)) ? 0 : throw parseError("Invalid tree branch.");
+        addBranch(start, convertChar(c), getLeafID(c)) ? 0 : throw parseError("Invalid tree branch.");
     }
     checkTree() ? 0 : throw parseError("The tree is invalid.");
     printTree();
@@ -132,6 +132,7 @@ bool parser::recursionCheckTree(leaf* &walker) const
     
     return true;
 } // recursionCheckWalker
+
 
 /*
 ================================================================
@@ -347,7 +348,9 @@ leafId parser::getLeafID(const std::string c) const
         {"cos", leafId::TRIG},
         {"tan", leafId::TRIG},
         {"ln", leafId::LOG},
-        {"log", leafId::LOG}
+        {"log", leafId::LOG},
+        {"e", leafId::DOUBLE},
+        {"pi", leafId::DOUBLE}
     };
 
     auto it = leafIdMap.find(c);
@@ -374,3 +377,15 @@ prec parser::precedence(const std::string c) const
     auto it = precedenceMap.find(c);
     return (it != precedenceMap.end()) ? it->second : prec::INVALID;
 } // precedence
+
+std::string parser::convertChar(const std::string c)
+{
+    if (c == "e"){
+        return "2.718281828459045";
+    }else if (c == "pi"){
+        return "3.141592653589793";
+    }else if (c == "ans"){
+        return (!results.empty()? getLeafID(c) == leafId::INT ? std::to_string(results.back().first) : std::to_string(results.back().second) : "0");
+    }
+    return c;
+} // convertChar

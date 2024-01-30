@@ -37,6 +37,7 @@ class parser
 
         leafId getLeafID(const std::string c) const;
         prec precedence(const std::string c) const;
+        std::string convertChar(const std::string c);
 };
 
 #endif

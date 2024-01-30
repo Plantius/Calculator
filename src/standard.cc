@@ -17,6 +17,7 @@ void reverseString(const std::vector<std::string> input, std::vector<std::string
 
 
 
+
 bool isUnary(const leaf* branch)
 {
     return (branch->id != leafId::INVALID && branch->id != leafId::INT && branch->id != leafId::DOUBLE);
