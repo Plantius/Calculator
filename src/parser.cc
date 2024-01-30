@@ -385,7 +385,7 @@ std::string parser::convertChar(const std::string c)
     }else if (c == "pi"){
         return std::to_string(PI);
     }else if (c == "ans"){
-        return (!results.empty()? getLeafID(c) == leafId::INT ? std::to_string(results.back().first) : std::to_string(results.back().second) : "99");
+        return (!results.empty()? getLeafID(c) == leafId::INT ? std::to_string(results.back().first) : std::to_string(results.back().second) : "0");
     }
     return c;
 } // convertChar
