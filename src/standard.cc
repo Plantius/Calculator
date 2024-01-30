@@ -1,7 +1,6 @@
 #include "standard.h"
 #include <math.h>
 #include <sstream>
-#include <unordered_map>
 
 void reverseString(const std::vector<std::string> input, std::vector<std::string> &output)
 {   
@@ -16,55 +15,12 @@ void reverseString(const std::vector<std::string> input, std::vector<std::string
     }
 } // reverseString
 
-prec precedence(const std::string c)
-{
-    static const std::unordered_map<std::string, prec> precedenceMap = 
-    {
-        {"^", prec::POW},
-        {"*", prec::MUL},
-        {"/", prec::DIV},
-        {"+", prec::PLUS},
-        {"-", prec::MIN},
-        {"sin", prec::TRIG},
-        {"cos", prec::TRIG},
-        {"tan", prec::TRIG},
-        {"ln", prec::LOG},
-        {"log", prec::LOG}
-    };
 
-    auto it = precedenceMap.find(c);
-    return (it != precedenceMap.end()) ? it->second : prec::INVALID;
-} // precedence
 
 bool isUnary(const leaf* branch)
 {
     return (branch->id != leafId::INVALID && branch->id != leafId::INT && branch->id != leafId::DOUBLE);
 } // isUnary
-
-leafId getLeafID(const std::string c)
-{
-    std::stringstream ss(c);
-    double tempDouble = {};
-    if (ss >> tempDouble){
-        return (tempDouble == floor(tempDouble) ? leafId::INT : leafId::DOUBLE);
-    }
-    static const std::unordered_map<std::string, leafId> leafIdMap = 
-    {
-        {"^", leafId::POW},
-        {"*", leafId::MUL},
-        {"/", leafId::DIV},
-        {"+", leafId::PLUS},
-        {"-", leafId::MIN},
-        {"sin", leafId::TRIG},
-        {"cos", leafId::TRIG},
-        {"tan", leafId::TRIG},
-        {"ln", leafId::LOG},
-        {"log", leafId::LOG}
-    };
-
-    auto it = leafIdMap.find(c);
-    return (it != leafIdMap.end()) ? it->second : leafId::INVALID;
-} // getLeafID
 
 
 bool legalInput (const std::string input)

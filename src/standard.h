@@ -17,10 +17,8 @@ enum class prec
 // string to std::string reverse
 void reverseString(const std::vector<std::string> input, std::vector<std::string> &output);
 
-prec precedence(const std::string c);
 
 bool isUnary(const leaf* branch);
-leafId getLeafID(const std::string c);
 
 bool legalInput(const std::string input);
 

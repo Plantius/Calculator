@@ -7,7 +7,7 @@ class parser
 {
     private:
         char cursorChar;
-
+        std::vector<std::pair<int, double>> results;
         leaf* begin;
     public:
         parser() : cursorChar('>'), begin(nullptr) {};
@@ -34,6 +34,9 @@ class parser
         void recursionSimplify(leaf* &walker) const;
 
         double calculateBranch(leaf* &walker) const;
+
+        leafId getLeafID(const std::string c) const;
+        prec precedence(const std::string c) const;
 };
 
 #endif

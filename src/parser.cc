@@ -3,6 +3,7 @@
 #include <stack>
 #include <sstream>
 #include <iostream>
+#include <unordered_map>
 
 void parser::clearTree()
 {
@@ -46,6 +47,7 @@ void parser::createTree(const std::string input)
     checkTree() ? 0 : throw parseError("The tree is invalid.");
     printTree();
     calculate();
+    results.push_back(std::make_pair(begin->intNum, begin->doubleNum));
     checkTree() ? 0 : throw parseError("The tree is invalid.");
 } // createTree
 
@@ -315,3 +317,60 @@ void parser::infixToPrefix(const std::vector<std::string> infix, std::vector<std
     // Reverse Postfix to get Prefix
     reverseString(postfix, prefix);
 } // infixToPrefix
+
+
+/*
+================================================================
+                        HELP FUNCTIONS
+================================================================
+*/
+
+
+leafId parser::getLeafID(const std::string c) const
+{
+    std::stringstream ss(c);
+    double tempDouble = {};
+    if (ss >> tempDouble){
+        return (tempDouble == floor(tempDouble) ? leafId::INT : leafId::DOUBLE);
+    }
+    if (c == "ans"){
+        return (!results.empty() ? (results.back().second == floor(results.back().second) ? leafId::INT : leafId::DOUBLE) : leafId::INVALID);
+    }
+    static const std::unordered_map<std::string, leafId> leafIdMap = 
+    {
+        {"^", leafId::POW},
+        {"*", leafId::MUL},
+        {"/", leafId::DIV},
+        {"+", leafId::PLUS},
+        {"-", leafId::MIN},
+        {"sin", leafId::TRIG},
+        {"cos", leafId::TRIG},
+        {"tan", leafId::TRIG},
+        {"ln", leafId::LOG},
+        {"log", leafId::LOG}
+    };
+
+    auto it = leafIdMap.find(c);
+    return (it != leafIdMap.end()) ? it->second : leafId::INVALID;
+} // getLeafID
+
+
+prec parser::precedence(const std::string c) const
+{
+    static const std::unordered_map<std::string, prec> precedenceMap = 
+    {
+        {"^", prec::POW},
+        {"*", prec::MUL},
+        {"/", prec::DIV},
+        {"+", prec::PLUS},
+        {"-", prec::MIN},
+        {"sin", prec::TRIG},
+        {"cos", prec::TRIG},
+        {"tan", prec::TRIG},
+        {"ln", prec::LOG},
+        {"log", prec::LOG}
+    };
+
+    auto it = precedenceMap.find(c);
+    return (it != precedenceMap.end()) ? it->second : prec::INVALID;
+} // precedence
