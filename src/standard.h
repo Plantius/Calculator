@@ -8,6 +8,7 @@
 
 const double E = 2.718281828459045;
 const double PI = 3.141592653589793;
+const double FLOAT_ERROR = 1e-6;
 
 enum class prec 
 {

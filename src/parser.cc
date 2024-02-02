@@ -40,12 +40,11 @@ void parser::createTree(const std::string input)
     
     splitString(input, tokenizedInput);
     infixToPrefix(tokenizedInput, prefix);
-    for (auto p : results){
-        std::cout << p.first <<", " << p.second <<std::endl;
-    }
+    // for (auto p : results){
+    //     std::cout << p.first <<", " << p.second <<std::endl;
+    // }
     // Adds all tokens to a tree
     for (auto c : prefix){
-        std::cout << convertChar(c) << std::endl;
         addBranch(start, convertChar(c), getLeafID(c)) ? 0 : throw parseError("Invalid tree branch.");
     }
     checkTree() ? 0 : throw parseError("The tree is invalid.");
@@ -166,8 +165,7 @@ void parser::recursionSimplify(leaf* &walker) const
 
     if (isUnary(walker)){
         result = calculateBranch(walker);
-
-        walker->id = (floor(result) == result ? leafId::INT : leafId::DOUBLE);
+        walker->id = ((fabs(result) - FLOAT_ERROR) < 0 ? leafId::INT : leafId::DOUBLE);
         walker->intNum = static_cast<int>(result);
         walker->doubleNum = result;
         walker->c = std::to_string(result);
@@ -332,7 +330,7 @@ leafId parser::getLeafID(const std::string c) const
     std::stringstream ss(c);
     double tempDouble = {};
     if (ss >> tempDouble){
-        return (tempDouble == floor(tempDouble) ? leafId::INT : leafId::DOUBLE);
+        return ((fabs(tempDouble) - FLOAT_ERROR) < 0 ? leafId::INT : leafId::DOUBLE);
     }
     if (c == "ans"){
         return (!results.empty() ? (results.back().second == floor(results.back().second) ? leafId::INT : leafId::DOUBLE) : leafId::INVALID);
@@ -385,7 +383,8 @@ std::string parser::convertChar(const std::string c)
     }else if (c == "pi"){
         return std::to_string(PI);
     }else if (c == "ans"){
-        return (!results.empty()? getLeafID(c) == leafId::INT ? std::to_string(results.back().first) : std::to_string(results.back().second) : "0");
+        return (!results.empty()? getLeafID(c) == leafId::INT ? std::to_string(results.back().first) : std::to_string(results.back().second) : 
+            throw inputError("Invalid input: No previous answers."));
     }
     return c;
 } // convertChar
