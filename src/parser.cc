@@ -51,6 +51,8 @@ void parser::createTree(const std::string input)
     printTree();
     calculate();
     results.push_back(std::make_pair(begin->intNum, begin->doubleNum));
+    std::cout << results.back().first << "," << results.back().second << std::endl;
+
     checkTree() ? 0 : throw parseError("The tree is invalid.");
 } // createTree
 
@@ -61,8 +63,8 @@ bool parser::addBranch(leaf* &walker, const std::string c, const leafId id)
 
     if (begin == nullptr && walker == nullptr){
         begin = new leaf(nullptr, nullptr, c, id, 
-            (id == leafId::INT ? atoi(c.c_str()) : 0), 
-            (id == leafId::DOUBLE ? atof(c.c_str()) : 0));
+            (id == leafId::INT || id == leafId::DOUBLE ? atoi(c.c_str()) : 0), 
+            (id == leafId::DOUBLE || id == leafId::INT ? atof(c.c_str()) : 0));
         walker = begin;
         return true;
     }else if (isUnary(walker)){
@@ -168,6 +170,7 @@ void parser::recursionSimplify(leaf* &walker) const
         walker->id = ((fabs(result) - FLOAT_ERROR) < 0 ? leafId::INT : leafId::DOUBLE);
         walker->intNum = static_cast<int>(result);
         walker->doubleNum = result;
+        std::cout << int(result) << " " << result << std::endl;
         walker->c = std::to_string(result);
 
         delete walker->left; 
